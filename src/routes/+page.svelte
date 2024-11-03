@@ -1,27 +1,21 @@
-<!-- javascript -->
 <script>
 	let count = 0;
 
 	function increment() {
-		count += 2;
+		count += 1;
 	}
 </script>
 
-<!-- html -->
-<div>
-	<h1 class="header">HALOOOO AKHIRNYA BISA</h1>
-	<h2>ijwkms</h2>
-	<button on:click={increment}>
-		Clicked {count}
-		{count === 1 ? 'time' : 'times'}
-	</button>
-</div>
+<button on:click={increment}>
+	Clicked {count}
+	{count === 1 ? 'time' : 'times'}
+</button>
 
-<!-- css -->
+<h1>Welcome to nightmare</h1>
+<h2>but just kidding! yey</h2>
+<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+
 <style>
-  .header {
-    color: red;
-  }
 	button {
 		padding: 10px 20px;
 		font-size: 16px;
