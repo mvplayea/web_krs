@@ -2,24 +2,26 @@
 	import axios from 'axios';
 	import { onMount } from 'svelte';
 
-	let krs = [];
+	let data = [];
 
 	const getData = async () => {
-		const res = await axios.get('http://localhost:5173/api/krs');
-		return await res.data.krs[0];
-	};
+		const mhs = localStorage.getItem('mahasiswa');
 
-	let mahasiswa;
+		if (mhs) {
+			const temp = JSON.parse(mhs);
+			const res = await axios.get('http://localhost:5173/api/krs', {
+				params: {
+					nim: temp.NIM
+				}
+			});
 
-	const getMahasiswa = async () => {
-		const res = await axios.get('http://localhost:5173/api/mahasiswa');
-		return await res.data.mahasiswa[0][0];
+			return await res.data.krs[0];
+		}
 	};
 
 	onMount(async () => {
-		krs = await getData();
-		mahasiswa = await getMahasiswa();
-		console.log(mahasiswa);
+		data = await getData();
+		console.log(data);
 	});
 </script>
 
@@ -27,14 +29,15 @@
 	<div class="container">
 		<h1>KRS Anda</h1>
 
-    {#if mahasiswa}
-		<div class="info-section">
-			<p>Mahasiswa: {mahasiswa.nama_mahasiswa}</p>
-			<p>NIM: {mahasiswa.NIM}</p>
-			<p>Prodi:</p>
-			<p>Semester:</p>
-		</div>
-    {/if}
+		{#if data[0]}
+			<div class="info-section">
+				<p>Mahasiswa: {data[0].nama_mahasiswa}</p>
+				<p>NIM: {data[0].NIM}</p>
+				<p>Prodi: {data[0].nama_prodi}</p>
+				<p>Semester: {data[0].semester_id}</p>
+				<p>Tahun Ajaran: {data[0].semester}</p>
+			</div>
+		{/if}
 
 		<div class="table-section">
 			<h3>Kartu Rencana Studi (KRS) - Semester Ganjil 2024-2025</h3>
@@ -51,18 +54,29 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each krs as k}
-						<!-- <tr>
+					{#each data as krs}
+						<tr>
 							<td>
-								{data.indexOf(d) + 1}
+								{data.indexOf(krs) + 1}
 							</td>
 							<td>
-								{d.kd_KRS}
+								{krs.kd_mk}
 							</td>
-						</tr> -->
-						<p>
-							{k.NIM}
-						</p>
+							<td>
+								{krs.matakuliah}
+							</td>
+							<td> 1 </td>
+							<td>
+								{krs.SKS}
+							</td>
+							<td>
+								{new Date(krs.waktu).toLocaleTimeString('id-ID', {
+									hour: 'numeric',
+									minute: 'numeric'
+								})}
+							</td>
+							<td> tatap muka </td>
+						</tr>
 					{/each}
 				</tbody>
 			</table>

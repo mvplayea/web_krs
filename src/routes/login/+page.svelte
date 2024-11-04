@@ -1,212 +1,228 @@
 <script>
-	/** @type {import('./$types').PageData} */
-	export let data;
+	import { redirect } from '@sveltejs/kit';
+	import axios from 'axios';
+
+	// @ts-ignore
+	let username;
+	// @ts-ignore
+	let password;
+
+	const handleLogin = async () => {
+		try {
+			const resp = await axios.post('http://localhost:5173/api/login', {
+				// @ts-ignore
+				username,
+				// @ts-ignore
+				password,
+			});
+
+			if(resp.data.mahasiswa.length > 0) {
+				localStorage.setItem("mahasiswa", JSON.stringify({...resp.data.mahasiswa[0]}));
+				window.location = "/krs"
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
 </script>
 
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Login Page</title>
-	</head>
-	<style>
-		body {
-			font-family: sans-serif;
-			margin: 0;
-			height: 100vh;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			position: relative;
-		}
+<body>
+	<h1>LOGIN</h1>
+	<div class="container">
+		<div class="form-title">FORM MASUK</div>
+		<form>
+			<div class="form-row">
+				<div class="form-group">
+					<label for="username">Username/NIM</label>
+					<input type="text" id="username" name="username" bind:value={username}/>
+				</div>
+				<div class="form-group">
+					<label for="password">Password</label>
+					<input type="password" id="password" name="password" bind:value={password} />
+				</div>
+			</div>
+			<div class="form-group">
+				<button on:click={handleLogin}>Login</button>
+			</div>
+		</form>
+		<div class="forgot-password">
+			<p><a href="#" class="forgot-password-link">Lupa password?</a></p>
+			<p>Masukkan email terdaftar untuk mereset kata sandi</p>
+		</div>
+	</div>
+</body>
 
-		body::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background-color: #272829;
-			background-position: center;
-			z-index: -1;
-		}
+<style>
+	body {
+		font-family: sans-serif;
+		margin: 0;
+		height: 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+	}
 
+	body::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: #272829;
+		background-position: center;
+		z-index: -1;
+	}
+
+	h1 {
+		font-size: 5.2rem;
+		color: #686d76;
+		font-weight: 800;
+		display: flex;
+		flex-direction: column;
+		writing-mode: vertical-rl;
+		text-orientation: upright;
+		margin-left: 300px;
+		position: absolute;
+		left: 5px;
+		transform-origin: translateY(-50%);
+	}
+
+	.container {
+		background-color: #eaeaea;
+		padding: 40px 30px;
+		border-radius: 10px;
+		border: solid;
+		box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+		width: 500px;
+		height: 450px;
+		text-align: left;
+		margin-left: 150px;
+	}
+
+	.form-title {
+		font-size: 1.2rem;
+		font-weight: 800;
+		color: #000;
+		margin-bottom: 20px;
+		text-align: left;
+	}
+
+	.form-row {
+		display: block;
+		margin-bottom: 20px;
+	}
+
+	.form-group {
+		text-align: left;
+		margin-bottom: 35px;
+	}
+
+	.form-group label {
+		display: block;
+		font-weight: normal;
+		color: #000;
+		margin-bottom: 10px;
+		font-size: 1rem;
+	}
+
+	.form-group input[type='text'],
+	.form-group input[type='password'] {
+		width: 100%;
+		padding: 15px;
+		border-radius: 10px;
+		border: none;
+		font-size: 1rem;
+		box-sizing: border-box;
+		outline: none;
+		background-color: #fff;
+	}
+
+	.forgot-password {
+		width: 100%;
+		padding: 10px;
+		border-radius: 5px;
+		border: none;
+		font-size: 1rem;
+		box-sizing: border-box;
+		outline: none;
+		background-color: #fff;
+	}
+
+	.forgot-password-link {
+		color: inherit;
+		text-decoration: none;
+		font-weight: bold;
+	}
+
+	.forgot-password-link:hover {
+		color: #007bff;
+		text-decoration: underline;
+	}
+
+	.form-group input[type='submit'] {
+		background-color: #272829;
+		color: white;
+		width: 100%;
+		padding: 10px 20px;
+		margin-bottom: 10px;
+		border: none;
+		border-radius: 10px;
+		font-size: 1rem;
+		cursor: pointer;
+	}
+
+	@media (max-width: 768px) {
 		h1 {
-			font-size: 5.2rem;
-			color: #686d76;
-			font-weight: 800;
-			display: flex;
-			flex-direction: column;
-			writing-mode: vertical-rl;
-			text-orientation: upright;
-			margin-left: 300px;
-			position: absolute;
+			font-size: 3.2rem;
 			left: 5px;
-			transform-origin: translateY(-50%);
 		}
 
 		.container {
-			background-color: #eaeaea;
-			padding: 40px 30px;
-			border-radius: 10px;
-			border: solid;
-			box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-			width: 500px;
-			height: 450px;
-			text-align: left;
-			margin-left: 150px;
+			margin-left: 0;
+			padding: 30px 20px;
+			width: 80%;
 		}
 
 		.form-title {
-			font-size: 1.2rem;
-			font-weight: 800;
-			color: #000;
-			margin-bottom: 20px;
-			text-align: left;
-		}
-
-		.form-row {
-			display: block;
-			margin-bottom: 20px;
-		}
-
-		.form-group {
-			text-align: left;
-			margin-bottom: 35px;
-		}
-
-		.form-group label {
-			display: block;
-			font-weight: normal;
-			color: #000;
-			margin-bottom: 10px;
-			font-size: 1rem;
+			font-size: 1.1rem;
 		}
 
 		.form-group input[type='text'],
 		.form-group input[type='password'] {
-			width: 100%;
-			padding: 15px;
-			border-radius: 10px;
-			border: none;
-			font-size: 1rem;
-			box-sizing: border-box;
-			outline: none;
-			background-color: #fff;
-		}
-
-		.forgot-password {
-			width: 100%;
-			padding: 10px;
-			border-radius: 5px;
-			border: none;
-			font-size: 1rem;
-			box-sizing: border-box;
-			outline: none;
-			background-color: #fff;
-		}
-
-		.forgot-password-link {
-			color: inherit;
-			text-decoration: none;
-			font-weight: bold;
-		}
-
-		.forgot-password-link:hover {
-			color: #007bff;
-			text-decoration: underline;
+			padding: 12px;
 		}
 
 		.form-group input[type='submit'] {
-			background-color: #272829;
-			color: white;
-			width: 100%;
-			padding: 10px 20px;
-			margin-bottom: 10px;
-			border: none;
-			border-radius: 10px;
+			padding: 12px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		h1 {
+			text-align: left;
+		}
+		.container {
+			width: 90%;
+			padding: 20px;
+		}
+
+		.form-title {
 			font-size: 1rem;
-			cursor: pointer;
+			text-align: center;
 		}
 
-		@media (max-width: 768px) {
-			h1 {
-				font-size: 3.2rem;
-				left: 5px;
-			}
-
-			.container {
-				margin-left: 0;
-				padding: 30px 20px;
-				width: 80%;
-			}
-
-			.form-title {
-				font-size: 1.1rem;
-			}
-
-			.form-group input[type='text'],
-			.form-group input[type='password'] {
-				padding: 12px;
-			}
-
-			.form-group input[type='submit'] {
-				padding: 12px;
-			}
+		.forgot-password {
+			text-align: center;
 		}
 
-		@media (max-width: 480px) {
-			h1 {
-				text-align: left;
-			}
-			.container {
-				width: 90%;
-				padding: 20px;
-			}
-
-			.form-title {
-				font-size: 1rem;
-				text-align: center;
-			}
-
-			.forgot-password {
-				text-align: center;
-			}
-
-			.forgot-password-link,
-			.form-group label,
-			.form-group input[type='text'],
-			.form-group input[type='password'],
-			.form-group input[type='submit'] {
-				font-size: 0.9rem;
-			}
+		.forgot-password-link,
+		.form-group label,
+		.form-group input[type='text'],
+		.form-group input[type='password'],
+		.form-group input[type='submit'] {
+			font-size: 0.9rem;
 		}
-	</style>
-	<body>
-		<h1>LOGIN</h1>
-		<div class="container">
-			<div class="form-title">FORM MASUK</div>
-			<form>
-				<div class="form-row">
-					<div class="form-group">
-						<label for="username">Username/NIM</label>
-						<input type="text" id="username" name="username" />
-					</div>
-					<div class="form-group">
-						<label for="password">Password</label>
-						<input type="password" id="password" name="password" />
-					</div>
-				</div>
-				<div class="form-group">
-					<input type="submit" value="MASUK" />
-				</div>
-			</form>
-			<div class="forgot-password">
-				<p><a href="#" class="forgot-password-link">Lupa password?</a></p>
-				<p>Masukkan email terdaftar untuk mereset kata sandi</p>
-			</div>
-		</div>
-	</body>
-</html>
+	}
+</style>

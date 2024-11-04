@@ -127,7 +127,7 @@ HAVING COUNT(k.id_krs) = 0;
 SELECT (COUNT() * 100.0) / (SELECT COUNT() FROM krs) AS persentase_remedial
 FROM krs
 WHERE status = 'remedial';
--- op 5 dosen dengan jumlah kelas terbanyak
+-- top 5 dosen dengan jumlah kelas terbanyak
 
 SELECT d.nama_dosen, COUNT(k.id_kelas) AS jumlah_kelas
 FROM dosen d
