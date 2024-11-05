@@ -83,9 +83,9 @@
 		flex-direction: column;
 		writing-mode: vertical-rl;
 		text-orientation: upright;
-		margin-left: 300px;
+		/* margin-left: 300px; */
 		position: absolute;
-		left: 5px;
+		left: -50px;
 		transform-origin: translateY(-50%);
 	}
 
@@ -119,7 +119,7 @@
 		margin-bottom: 35px;
 	}
 
-	.form-group label {
+	.form-group button {
 		display: block;
 		font-weight: normal;
 		color: #000;
