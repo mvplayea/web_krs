@@ -1,7 +1,9 @@
 <script>
 	import axios from 'axios';
 	import { onMount } from 'svelte';
-
+  
+  let formData = {};
+  let mk = {};
 	let data = [];
 
 	const getData = async () => {
@@ -18,10 +20,21 @@
 			return await res.data.krs[0];
 		}
 	};
+  
+  // const addData = async () => {
+  // }
+  
+  const getMK = async () => {
+    const res = await axios.get('http://localhost:5173/api/matakuliah');
+    
+    return await res.data.mk[0];
+  }
 
 	onMount(async () => {
 		data = await getData();
+    mk = await getMK();
 		console.log(data);
+    console.log(mk);
 	});
 </script>
 
@@ -83,9 +96,36 @@
 		</div>
 
 		<div class="button-section">
-			<button class="button">Lihat Jadwal Perkuliahan</button>
+      <a href="/jadwal">
+        <button class="button">Lihat Jadwal Perkuliahan</button>
+      </a>
 		</div>
 	</div>
+  <div class="table-section">
+    <h3>Pilih KRS</h3>
+    <table>
+      <thead>
+      <tr>
+        <th>Kode</th>
+        <th>Nama Matakuliah</th>
+        <th>SKS</th>
+        <th>Prodi</th>
+        <th>Semester</th>
+      </tr>
+      </thead>
+      <tbody>
+      {#each data as krs}
+        <tr>
+          <td>{krs.kd_mk}</td>
+          <td>{krs.matakuliah}</td>
+          <td>{krs.SKS}</td>
+          <td>{krs.kd_prodi}</td>
+          <td> {krs.semester} </td>
+        </tr>
+      {/each}
+      </tbody>
+    </table>
+  </div>
 </body>
 
 <style>
