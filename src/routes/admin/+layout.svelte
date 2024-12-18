@@ -11,7 +11,7 @@
     background-color: #007bff; /* Blue background */
     color: white;
     min-height: 100vh;
-    padding: 20px;
+    padding: 2em;
     box-sizing: border-box;
   }
   
@@ -52,12 +52,16 @@
 <section>
   <div class="sidebar">
     <a href="/admin/mahasiswa">
-      <span class="icon"></span>
       Mahasiswa
     </a>
     <a href="/admin/matakuliah">
-      <span class="icon"></span>
       Mata Kuliah
+    </a>
+    <a href="/admin/matakuliah">
+      Prodi
+    </a>
+    <a href="/admin/matakuliah">
+      Jurusan
     </a>
   </div>
   <div class="content">

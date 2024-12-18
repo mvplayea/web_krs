@@ -1,3 +1,4 @@
+<script src="../../../../api/matakuliah/[kd_mk]/+server.js"></script>
 <script>
   import { onMount } from 'svelte';
   import axios from 'axios';
