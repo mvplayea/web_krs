@@ -10,3 +10,22 @@ export async function GET({ url }) {
   
   return json({ mk });
 }
+
+//   Create
+export async function POST() {
+
+}
+
+//   Update
+export async function PUT() {
+
+}
+
+export async function PATCH() {
+
+}
+
+// delete
+export async function DELETE() {
+
+}

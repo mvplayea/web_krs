@@ -1,5 +1,4 @@
 <script>
-	import { redirect } from '@sveltejs/kit';
 	import axios from 'axios';
 
 	// @ts-ignore
@@ -9,7 +8,7 @@
 
 	const handleLogin = async () => {
 		try {
-			const resp = await axios.post('http://localhost:5173/api/login', {
+			const resp = await axios.post('/api/login', {
 				// @ts-ignore
 				username,
 				// @ts-ignore
@@ -26,7 +25,7 @@
 	};
 </script>
 
-<body>
+<section id="login_section">
 	<h1>LOGIN</h1>
 	<div class="container">
 		<div class="form-title">FORM MASUK</div>
@@ -50,10 +49,10 @@
 			<p>Masukkan email terdaftar untuk mereset kata sandi</p>
 		</div>
 	</div>
-</body>
+</section>
 
 <style>
-	body {
+	#login_section {
 		font-family: sans-serif;
 		margin: 0;
 		height: 100vh;
@@ -63,7 +62,7 @@
 		position: relative;
 	}
 
-	body::before {
+	#login_section::before {
 		content: '';
 		position: absolute;
 		top: 0;

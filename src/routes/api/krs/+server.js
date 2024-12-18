@@ -28,3 +28,17 @@ export async function POST(request) {
   
   return json({krs: {...krs}})
 }
+
+//   Update
+export async function PUT() {
+
+}
+
+export async function PUT() {
+
+}
+
+// delete
+export async function DELETE() {
+
+}

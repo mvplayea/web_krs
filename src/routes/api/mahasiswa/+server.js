@@ -1,16 +1,40 @@
 import { json } from '@sveltejs/kit';
 import connection from '$lib/db';
 
-export async function GET({ url }) {
-	const nim = url.searchParams.get('nim');
-
-	const mahasiswa = await connection.query(
-		`SELECT *
-    FROM KRS
-    JOIN Mahasiswa ON KRS.NIM = Mahasiswa.NIM
-    JOIN Mata_Kuliah ON KRS.kd_mk = Mata_Kuliah.kd_mk
-    WHERE Mahasiswa.NIM = ${nim}`
+// Create
+export async function POST({request}) {
+  const { NIM, nama_mahasiswa, tanggallahir, agama, jenis_kelamin, alamat, kd_prodi, semester_id} = await request.json();
+  
+  const result = await connection.query(
+    `INSERT INTO mahasiswa (NIM, nama_mahasiswa, tanggallahir, agama, jenis_kelamin, alamat, kd_prodi, semester_id)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    [NIM, nama_mahasiswa, tanggallahir, agama, jenis_kelamin, alamat, kd_prodi, semester_id]
   );
+  
+  return json({ result });
+}
 
-	return json({ mahasiswa });
+// Read
+export async function GET({ url }) {
+  // const nim = url.searchParams.get('nim');
+  
+  const mahasiswa = await connection.query(
+    `SELECT * FROM mahasiswa`
+  );
+  
+  return json({ mahasiswa });
+}
+
+//   Update
+export async function PUT() {
+
+}
+
+export async function PATCH() {
+
+}
+
+// delete
+export async function DELETE() {
+
 }

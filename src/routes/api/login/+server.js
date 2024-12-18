@@ -14,3 +14,17 @@ export async function POST({request}) {
 
   return json({mahasiswa: mhs[0]});
 }
+
+//   Update
+export async function PUT() {
+
+}
+
+export async function PATCH() {
+
+}
+
+// delete
+export async function DELETE() {
+
+}
