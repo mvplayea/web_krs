@@ -8,7 +8,7 @@
     width: 100%;
   }
   .sidebar {
-    background-color: #007bff; /* Blue background */
+    background-color: #7766C6; /* Blue background */
     color: white;
     min-height: 100vh;
     padding: 2em;
@@ -29,7 +29,7 @@
   }
   
   .sidebar a:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #7766F1; /* Darker blue on hover */
     transform: scale(1.05);
   }
   
@@ -46,6 +46,8 @@
   
   .content {
     padding: 20px;
+    background-color: #E0DFFD;
+    width: 100%;
   }
 </style>
 

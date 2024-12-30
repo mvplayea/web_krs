@@ -1,8 +1,7 @@
-<script src="../../../../api/matakuliah/[kd_mk]/+server.js"></script>
 <script>
-  import { onMount } from 'svelte';
+  import {onMount} from 'svelte';
   import axios from 'axios';
-  import { page } from '$app/stores';
+  import {page} from '$app/stores';
   
   const nim = $page.params.nim;
   let mahasiswaData;
@@ -23,7 +22,7 @@
     try {
       const response = await axios.get(`/api/mahasiswa/${nim}`);
       // Update each property reactively
-      mahasiswaData = response.data.mahasiswa[0];
+      mahasiswaData = response.data.mahasiswa[0]
       
       formData = {
         ...formData,
@@ -60,50 +59,50 @@
 
 <!-- HTML and Styling remains the same -->
 <div class="container">
-<!---->
-  <div class="table-section">
-    <h3>Data Mahasiswa</h3>
-    <table>
-      <thead>
-      <tr>
-        <th>Nama</th>
-        <th>tanggal lahir</th>
-        <th>alamat</th>
-        <th>agama</th>
-        <th>Jenis kelamin</th>
-        <th>Prodi</th>
-        <th>Semester</th>
-      </tr>
-      </thead>
-      <tbody>
-      {#each mahasiswaData as data}
-        <tr>
-          <td>
-            {data.nama_mahasiswa}
-          </td>
-          <td>
-            {data.semester_id}
-          </td>
-          <td>
-            {data.alamat}
-          </td>
-          <td>
-            {data.agama}
-          </td>
-          <td>
-            {data.jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan'}
-          </td>
-          <td>
-            {data.kd_prodi}
-          </td>
-          <td>
-            {data.semester_id}
-          </td>
-        </tr>
-      {/each}
-      </tbody>
-    </table>
-  </div>
+  <!---->
+<!--  <div class="table-section">-->
+<!--    <h3>Data Mahasiswa</h3>-->
+<!--    <table>-->
+<!--      <thead>-->
+<!--      <tr>-->
+<!--        <th>Nama</th>-->
+<!--        <th>tanggal lahir</th>-->
+<!--        <th>alamat</th>-->
+<!--        <th>agama</th>-->
+<!--        <th>Jenis kelamin</th>-->
+<!--        <th>Prodi</th>-->
+<!--        <th>Semester</th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      {#each mahasiswaData as data}-->
+<!--        <tr>-->
+<!--          <td>-->
+<!--            {data.nama_mahasiswa}-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            {data.semester_id}-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            {data.alamat}-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            {data.agama}-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            {data.jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan'}-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            {data.kd_prodi}-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            {data.semester_id}-->
+<!--          </td>-->
+<!--        </tr>-->
+<!--      {/each}-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--  </div>-->
   
   <h1>Edit Data Mahasiswa</h1>
   
@@ -211,6 +210,7 @@
     font-size: 24px;
     margin-bottom: 20px;
   }
+  
   .table-section {
     background-color: #444444;
     border-radius: 10px;

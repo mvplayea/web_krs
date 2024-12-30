@@ -21,6 +21,10 @@
 <div class="container">
   <h1>Data Mahasiswa</h1>
   
+  <a href="/admin/mahasiswa/create">
+    <button>+ Data Mahasiswa</button>
+  </a>
+  
   {#if mahasiswaData}
     <div class="table-wrapper">
       <table>
