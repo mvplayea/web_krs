@@ -32,6 +32,7 @@ export async function GET({url}) {
     `;
     
     const [matakuliah] = await connection.query(query, [semester_id, kd_prodi]);
+    console.log(matakuliah)
     
     return json({ matakuliah });
     

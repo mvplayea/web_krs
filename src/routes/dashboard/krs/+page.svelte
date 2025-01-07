@@ -1,12 +1,15 @@
 <script>
   import axios from 'axios';
   import {onMount} from 'svelte';
+  import {getUser} from "$lib/util.js";
   
   let formData = {};
   let mk = {};
   let data = [];
+  let user;
   
   const getData = async () => {
+    user = getUser(localStorage)
     const mhs = localStorage.getItem('mahasiswa');
     
     if (mhs) {
@@ -40,6 +43,7 @@
 <section>
   <div class="container">
     <h1>KRS ANDA</h1>
+    {#if user}
     <div class="info-section">
       <p>Mahasiswa: </p>
       <p>Fakultas: </p>
@@ -47,6 +51,7 @@
       <p>Semester: </p>
       <p>Basis: </p>
     </div>
+      {/if}
     
     <div class="table-section">
       <h3>Kartu Rencana Studi (KRS) - Semester Ganjil 2024-2025</h3>

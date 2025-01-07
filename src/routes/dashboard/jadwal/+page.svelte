@@ -4,9 +4,10 @@
   import {getUser} from "$lib/util.js";
   
   let data = [];
+  let user;
   
   const getData = async () => {
-    const user = getUser(localStorage)
+    user = getUser(localStorage)
     const params = {
       nim: user.NIM
     }
@@ -24,18 +25,19 @@
 <div class="container">
   <div class="header">Jadwal Perkuliahan</div>
   
-  <div class="info-box">
-    <div>
-      <p>Nama Mahasiswa :</p>
-      <p>NIM :</p>
-      <p>Jenis Kelamin :</p>
+  {#if user}
+    <div class="info-box">
+      <div>
+        <p>Nama Mahasiswa : {user && user.nama_mahasiswa}</p>
+        <p>NIM : {user && user.NIM}</p>
+        <p>Jenis Kelamin : {user && user.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan'}</p>
+      </div>
+      <div>
+        <p>Fakultas/Prodi : {user && user.nama_prodi}</p>
+        <p>Semester MHS : {user && user.semester_id}</p>
+      </div>
     </div>
-    <div>
-      <p>Fakultas/Prodi :</p>
-      <p>Periode Masuk :</p>
-      <p>Semester MHS :</p>
-    </div>
-  </div>
+  {/if}
   
   <div class="schedule-section">
     <div class="schedule-title">Jadwal Perkuliahan Mingguan</div>
@@ -43,31 +45,19 @@
       <thead>
       
       <tr>
-        <th>Mulai</th>
-        <th>Selesai</th>
+        <th>Kode</th>
         <th>Kode MK</th>
         <th>Mata Kuliah</th>
-        <th>Sesi</th>
-        <th>Ruang</th>
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
+      {#each data as item}
+        <tr>
+          <td>{new Date(item.waktu).toLocaleDateString('id-ID')}</td>
+          <td>{item.kode_mk}</td>
+          <td>{item.mata_kuliah}</td>
+        </tr>
+      {/each}
       </tbody>
     </table>
   </div>

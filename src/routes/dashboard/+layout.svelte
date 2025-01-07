@@ -14,7 +14,7 @@
     <div class="nav">
       <a href="/dashboard/beranda">BERANDA</a>
       <a href="/dashboard/profile">PROFIL</a>
-      <a href="/dashboard/krs">KRS</a>
+      <a href="/dashboard/form-krs">KRS</a>
       <a href="/dashboard/jadwal">JADWAL</a>
     </div>
     <button class="exit-button" onclick={logout}>KELUAR</button>

@@ -1,39 +1,51 @@
+<script>
+  import {getUser} from "$lib/util.js";
+  import {onMount} from 'svelte';
+  
+  let user;
+  
+  onMount(async () => {
+    user = getUser(localStorage)
+  })
+</script>
 <section>
   <div class="container">
     <div class="profile-section">
       <h1>Profil Mahasiswa</h1>
-      <div class="profile-info">
-        <div class="profile-field">
-          <span>NIM</span>
-          <span>:</span>
-          <span></span>
+      {#if user}
+        <div class="profile-info">
+          <div class="profile-field">
+            <span>NIM</span>
+            <span>:</span>
+            <span>{user.NIM}</span>
+          </div>
+          <div class="profile-field">
+            <span>Nama Mahasiswa</span>
+            <span>:</span>
+            <span>{user.nama_mahasiswa}</span>
+          </div>
+          <div class="profile-field">
+            <span>Fakultas</span>
+            <span>:</span>
+            <span>Fakultas Ilmu Komputer</span>
+          </div>
+          <div class="profile-field">
+            <span>Prodi</span>
+            <span>:</span>
+            <span>{user.nama_prodi}</span>
+          </div>
+          <div class="profile-field">
+            <span>Status Mahasiswa</span>
+            <span>:</span>
+            <span>Aktif</span>
+          </div>
+          <div class="profile-field">
+            <span>Semester</span>
+            <span>:</span>
+            <span>{user.semester_id}</span>
+          </div>
         </div>
-        <div class="profile-field">
-          <span>Nama Mahasiswa</span>
-          <span>:</span>
-          <span></span>
-        </div>
-        <div class="profile-field">
-          <span>Fakultas</span>
-          <span>:</span>
-          <span></span>
-        </div>
-        <div class="profile-field">
-          <span>Prodi</span>
-          <span>:</span>
-          <span></span>
-        </div>
-        <div class="profile-field">
-          <span>Periode Daftar</span>
-          <span>:</span>
-          <span></span>
-        </div>
-        <div class="profile-field">
-          <span>Status Mahasiswa</span>
-          <span>:</span>
-          <span></span>
-        </div>
-      </div>
+      {/if}
     </div>
   </div>
 </section>

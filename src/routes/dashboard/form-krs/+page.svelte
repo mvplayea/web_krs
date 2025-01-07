@@ -64,7 +64,7 @@
     } catch (error) {
       console.error(error);
     } finally {
-      window.location.reload();
+      // window.location.reload();
     }
     
   };
@@ -91,7 +91,7 @@
   </div>
   
   <!-- Lihat KRS (di bawah menu Beranda) -->
-  <a href="http://127.0.0.1:5501/krs.html" class="btn-lihat-krs">Lihat KRS Anda</a>
+  <a href="/dashboard/krs" class="btn-lihat-krs">Lihat KRS Anda</a>
   
   <!-- Notification -->
   <div class="notification">

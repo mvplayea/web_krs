@@ -8,15 +8,13 @@ export async function GET({ url }) {
   const mahasiswa = await connection.query(
     `SELECT *
     FROM krs_mk
-    JOIN KRS on KRS.kd_krs = krs_mk.kd_krs
-    JOIN Mata_Kuliah ON krs_mk.kd_mk = Mata_Kuliah.kd_mk
-    JOIN Mahasiswa ON KRS.NIM = Mahasiswa.NIM
-    JOIN Prodi on Mahasiswa.kd_prodi = Prodi.kd_prodi
-    JOIN Semester ON Mahasiswa.semester_id = Semester.semester_id
-    JOIN Jadwal ON Mata_Kuliah.kd_mk = Jadwal.kd_mk
+    LEFT JOIN KRS on KRS.kd_krs = krs_mk.kd_krs
+    LEFT JOIN Mata_Kuliah ON krs_mk.kd_mk = Mata_Kuliah.kd_mk
+    LEFT JOIN Mahasiswa ON KRS.NIM = Mahasiswa.NIM
     WHERE Mahasiswa.NIM = '${nim}'`
   );
 
+  console.log(mahasiswa)
   return json({ krs: { ...mahasiswa } });
 }
 
@@ -41,8 +39,11 @@ export async function POST({ request }) {
     kd_krs = existingKRS[0][0]?.kd_krs;
   }
   
+  console.log(matakuliah)
   matakuliah.forEach(async (mk) => {
     const { kd_mk } = mk;
+    console.log(mk)
+    console.log(kd_mk)
     
     await connection.query(
       `INSERT INTO krs_mk (kd_krs, kd_mk) VALUES (?, ?)`,

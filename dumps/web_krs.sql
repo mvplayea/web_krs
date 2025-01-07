@@ -374,7 +374,11 @@ select * from jadwal;
 
 select * from mata_kuliah;
 delete from krs where kd_KRS != 'KRS080101';
+select * from mata_kuliah;
+select * from krs;
 select * from krs_mk;
+select * from krs;
+select * from mahasiswa;
 
 describe krs_mk;
 select kd_mk from krs_mk join krs on krs.kd_KRS = krs_mk.kd_krs where krs.kd_KRS = 'KRS080101';

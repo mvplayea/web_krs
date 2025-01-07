@@ -12,9 +12,10 @@ export async function POST({request}) {
 
   const mhs = await connection.query(`
   SELECT * FROM Mahasiswa
-  WHERE Mahasiswa.NIM = ?`,
-    [username]);
+  JOIN Prodi ON Mahasiswa.kd_prodi = Prodi.kd_prodi
+  WHERE Mahasiswa.NIM = ?`,[username]);
 
+  console.log(mhs)
   return json({mahasiswa: mhs[0]});
 }
 
