@@ -35,6 +35,10 @@
     }
   }
   
+  async function loadProdiData() {
+  
+  }
+  
   async function handleSubmit() {
     try {
       formData = {
@@ -57,271 +61,181 @@
   });
 </script>
 
-<!-- HTML and Styling remains the same -->
-<div class="container">
-  <!---->
-<!--  <div class="table-section">-->
-<!--    <h3>Data Mahasiswa</h3>-->
-<!--    <table>-->
-<!--      <thead>-->
-<!--      <tr>-->
-<!--        <th>Nama</th>-->
-<!--        <th>tanggal lahir</th>-->
-<!--        <th>alamat</th>-->
-<!--        <th>agama</th>-->
-<!--        <th>Jenis kelamin</th>-->
-<!--        <th>Prodi</th>-->
-<!--        <th>Semester</th>-->
-<!--      </tr>-->
-<!--      </thead>-->
-<!--      <tbody>-->
-<!--      {#each mahasiswaData as data}-->
-<!--        <tr>-->
-<!--          <td>-->
-<!--            {data.nama_mahasiswa}-->
-<!--          </td>-->
-<!--          <td>-->
-<!--            {data.semester_id}-->
-<!--          </td>-->
-<!--          <td>-->
-<!--            {data.alamat}-->
-<!--          </td>-->
-<!--          <td>-->
-<!--            {data.agama}-->
-<!--          </td>-->
-<!--          <td>-->
-<!--            {data.jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan'}-->
-<!--          </td>-->
-<!--          <td>-->
-<!--            {data.kd_prodi}-->
-<!--          </td>-->
-<!--          <td>-->
-<!--            {data.semester_id}-->
-<!--          </td>-->
-<!--        </tr>-->
-<!--      {/each}-->
-<!--      </tbody>-->
-<!--    </table>-->
-<!--  </div>-->
-  
-  <h1>Edit Data Mahasiswa</h1>
-  
-  <form on:submit|preventDefault={handleSubmit}>
-    <div class="form-group">
-      <label for="nim">NIM:</label>
-      <input
-        type="text"
-        id="nim"
-        bind:value={formData.NIM}
-        readonly
-      />
+<section>
+  <div class="main">
+    <div class="form-container">
+      <div class="form-header">
+        + Edit Mahasiswa
+      </div>
+      <form class="form-body" on:submit|preventDefault={handleSubmit}>
+        <div class="form-group">
+          <label for="nim">NIM</label>
+          <input
+            type="text"
+            id="nim"
+            bind:value={formData.NIM}
+            readonly
+          />
+        </div>
+        
+        <div class="form-group">
+          <label for="nama">Nama</label>
+          <input
+            type="text"
+            id="nama_mahasiswa"
+            bind:value={formData.nama_mahasiswa}
+          />
+        </div>
+        
+        <div class="form-group">
+          <label for="alamat">Alamat:</label>
+          <input
+            type="textarea"
+            id="alamat"
+            bind:value={formData.alamat}
+          />
+        </div>
+        
+        <div class="form-group">
+          <label for="jenis_kelamin">Jenis Kelamin:</label>
+          <select
+            id="jenis_kelamin"
+            bind:value={formData.jenis_kelamin}
+          >
+            <option value="">Select Gender</option>
+            <option value="L">Laki-laki</option>
+            <option value="P">Perempuan</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="semester_id">Semester ID:</label>
+          <input
+            type="text"
+            id="semester_id"
+            bind:value={formData.semester_id}
+          />
+        </div>
+        
+        <div class="form-group">
+          <label for="kd_prodi">Program Studi</label>
+          <select id="kd_prodi" required>
+            <option value="" disabled selected>Pilih</option>
+            <option value="0801">Teknik Informatika</option>
+            <option value="08022">Sistem Informasi</option>
+          </select>
+        </div>
+        
+        <button type="submit" class="submit-button">Edit Fakultas</button>
+      </form>
     </div>
-    
-    <div class="form-group">
-      <label for="nama">Nama Mahasiswa:</label>
-      <input
-        type="text"
-        id="nama"
-        bind:value={formData.nama_mahasiswa}
-      />
-    </div>
-    
-    <div class="form-group">
-      <label for="tanggallahir">Tanggal Lahir:</label>
-      <input
-        type="date"
-        id="tanggallahir"
-        bind:value={formData.tanggallahir}
-      />
-    </div>
-    
-    <div class="form-group">
-      <label for="agama">Agama:</label>
-      <select
-        id="agama"
-        bind:value={formData.agama}
-      >
-        <option value="">Select Religion</option>
-        <option value="Islam">Islam</option>
-        <option value="Kristen">Kristen</option>
-        <option value="Katolik">Katolik</option>
-        <option value="Hindu">Hindu</option>
-        <option value="Buddha">Buddha</option>
-        <option value="Konghucu">Konghucu</option>
-      </select>
-    </div>
-    
-    <div class="form-group">
-      <label for="jenis_kelamin">Jenis Kelamin:</label>
-      <select
-        id="jenis_kelamin"
-        bind:value={formData.jenis_kelamin}
-      >
-        <option value="">Select Gender</option>
-        <option value="L">Laki-laki</option>
-        <option value="P">Perempuan</option>
-      </select>
-    </div>
-    
-    <div class="form-group">
-      <label for="alamat">Alamat:</label>
-      <textarea
-        id="alamat"
-        bind:value={formData.alamat}
-        rows="3"
-      ></textarea>
-    </div>
-    
-    <div class="form-group">
-      <label for="kd_prodi">Kode Prodi:</label>
-      <input
-        type="text"
-        id="kd_prodi"
-        bind:value={formData.kd_prodi}
-      />
-    </div>
-    
-    <div class="form-group">
-      <label for="semester_id">Semester ID:</label>
-      <input
-        type="text"
-        id="semester_id"
-        bind:value={formData.semester_id}
-      />
-    </div>
-    
-    <div class="button-group">
-      <button type="submit" class="submit-btn">
-        Update Data
-      </button>
-      <a href="/static" class="cancel-btn">Cancel</a>
-    </div>
-  </form>
-</div>
+  </div>
+</section>
 
 <style>
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+  section {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #C2C8DA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }
   
-  h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+  .main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #C2C8DA;
+    height: 100vh;
+    flex-wrap: wrap;
   }
   
-  .table-section {
-    background-color: #444444;
-    border-radius: 10px;
-    padding: 15px;
-  }
-  
-  table {
+  .main .form-container {
     width: 100%;
-    border-collapse: collapse;
+    max-width: 700px;
+    background-color: #C2C8DA;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 20px;
   }
   
-  th,
-  td {
-    border: 1px solid #666666;
-    padding: 10px;
-    text-align: center;
-    color: #ffffff;
-  }
-  
-  th {
-    background-color: #333333;
+  .form-header {
+    background-color: #6a1b9a;
+    color: white;
+    font-size: 25px;
     font-weight: bold;
+    padding: 15px;
+    text-align: left;
+  }
+  
+  .form-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
   }
   
   .form-group {
-    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
   }
   
   label {
-    display: block;
-    margin-bottom: 5px;
+    font-size: 14px;
     font-weight: bold;
+    color: #333;
   }
   
-  input, select, textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  input[readonly] {
-    background-color: #f5f5f5;
-    cursor: not-allowed;
-  }
-  
+  input,
+  select,
   textarea {
-    resize: vertical;
-    min-height: 80px;
+    padding: 10px;
+    border: 1px solid #763497;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #C2C8DA;
   }
   
-  select {
-    height: 35px;
+  input:focus,
+  select:focus {
+    outline: none;
+    border-color: #6a1b9a;
   }
   
-  .button-group {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  
-  .submit-btn, .cancel-btn {
-    padding: 10px 20px;
+  .submit-button {
+    padding: 10px;
+    background-color: #6a1b9a;
+    color: white;
     border: none;
     border-radius: 4px;
+    font-size: 14px;
     cursor: pointer;
-    font-size: 16px;
-    text-decoration: none;
-    text-align: center;
-    flex: 1;
+    align-self: flex-start; /* Align button to the left */
   }
   
-  .submit-btn {
-    background-color: #4CAF50;
-    color: white;
+  .submit-button:hover {
+    background-color: #501380;
   }
   
-  .submit-btn:hover {
-    background-color: #45a049;
+  /* Minimize*/
+  @media (max-width: 768px) {
+    .form-container {
+      width: 90%;
+    }
   }
   
-  .cancel-btn {
-    background-color: #f44336;
-    color: white;
-    display: inline-block;
-  }
-  
-  .cancel-btn:hover {
-    background-color: #da190b;
-  }
-  
-  input:focus, select:focus, textarea:focus {
-    outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
-  }
-  
-  /* Add some basic form validation styles */
-  input:invalid, select:invalid, textarea:invalid {
-    border-color: #ff6b6b;
-  }
-  
-  /* Responsive design */
-  @media (max-width: 600px) {
-    .container {
-      padding: 10px;
+  @media (max-width: 480px) {
+    .sidebar {
+      display: none;
     }
     
-    .button-group {
-      flex-direction: column;
+    .main {
+      padding: 10px;
     }
   }
 </style>
+

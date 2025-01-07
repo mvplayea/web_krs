@@ -412,3 +412,4 @@ VALUES ('KRS001', '080101', 1),
 #
 # select routine_name from information_schema.routines where routine_type = 'PROCEDURE' and routine_schema = 'pengambilan_krs';
 #
+select * from pengambilan_krs.prodi;
