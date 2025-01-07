@@ -1,11 +1,12 @@
 import {json} from "@sveltejs/kit";
-import connection from "$lib/db";
+import connection from "$lib/db.js";
 import {getParams} from "$lib/util.js";
 
 // Read
-export async function GET({params}) {
-    const {nim} = params;
+export async function GET({url}) {
+    const nim = await getParams(url, 'nim');
 
+    console.log(nim)
     const [jadwal] = await connection.query(
         `SELECT j.*
        FROM Jadwal j

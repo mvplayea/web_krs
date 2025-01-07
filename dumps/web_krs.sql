@@ -508,8 +508,47 @@ END //
 
 DELIMITER ;
 
-show triggers  from pengambilan_krs;
-select * from pengambilan_krs.prodi;
+DELIMITER //
 
-describe jadwal;
-describe mata_kuliah;
+CREATE PROCEDURE GetJadwal(
+    IN p_semester INT,
+    IN p_prodi INT,
+    IN p_page INT
+)
+BEGIN
+    DECLARE v_offset INT;
+
+    -- Calculate the offset for pagination (fixed LIMIT of 10)
+    SET v_offset = (p_page - 1) * 10;
+
+    -- Query with filtering and pagination for the jadwal table
+    IF p_semester IS NOT NULL AND p_prodi IS NOT NULL THEN
+        SELECT jadwal.jadwal_id, jadwal.kd_mk, jadwal.waktu, mata_kuliah.matakuliah, mata_kuliah.sks, mata_kuliah.semester_id, mata_kuliah.kd_prodi
+        FROM jadwal
+                 JOIN mata_kuliah ON jadwal.kd_mk = mata_kuliah.kd_mk
+                 JOIN prodi ON mata_kuliah.kd_prodi = prodi.kd_prodi
+        WHERE mata_kuliah.semester_id = p_semester
+          AND mata_kuliah.kd_prodi = p_prodi
+        LIMIT 10 OFFSET v_offset;
+    ELSEIF p_semester IS NOT NULL THEN
+        SELECT jadwal.jadwal_id, jadwal.kd_mk, jadwal.waktu, mata_kuliah.matakuliah, mata_kuliah.sks, mata_kuliah.semester_id, mata_kuliah.kd_prodi
+        FROM jadwal
+                 JOIN mata_kuliah ON jadwal.kd_mk = mata_kuliah.kd_mk
+        WHERE mata_kuliah.semester_id = p_semester
+        LIMIT 10 OFFSET v_offset;
+    ELSEIF p_prodi IS NOT NULL THEN
+        SELECT jadwal.jadwal_id, jadwal.kd_mk, jadwal.waktu, mata_kuliah.matakuliah, mata_kuliah.sks, mata_kuliah.semester_id, mata_kuliah.kd_prodi
+        FROM jadwal
+                 JOIN mata_kuliah ON jadwal.kd_mk = mata_kuliah.kd_mk
+                 JOIN prodi ON mata_kuliah.kd_prodi = prodi.kd_prodi
+        WHERE mata_kuliah.kd_prodi = p_prodi
+        LIMIT 10 OFFSET v_offset;
+    ELSE
+        SELECT jadwal.jadwal_id, jadwal.kd_mk, jadwal.waktu, mata_kuliah.matakuliah, mata_kuliah.sks, mata_kuliah.semester_id, mata_kuliah.kd_prodi
+        FROM jadwal
+                 JOIN mata_kuliah ON jadwal.kd_mk = mata_kuliah.kd_mk
+        LIMIT 10 OFFSET v_offset;
+    END IF;
+END //
+
+DELIMITER ;

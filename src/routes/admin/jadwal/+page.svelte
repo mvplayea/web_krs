@@ -1,16 +1,56 @@
 <script>
     import axios from 'axios';
-    import { onMount } from 'svelte';
+    import {onMount} from 'svelte';
 
+    let page = 1;
     let jadwalData;
+    let semester;
+    let prodi;
 
     async function getDataJadwal() {
+        const params = {
+            page,
+            semester,
+            prodi,
+        }
         try {
-            const response = await axios.get('/api/jadwal');
-            jadwalData = await response.data.jadwal;
+            const response = await axios.get('/api/jadwal', {params});
+            jadwalData = await response.data.jadwal[0];
         } catch (error) {
             console.error('Error:', error);
         }
+    }
+
+    async function deleteJadwal(jadwal_id) {
+        try {
+            const response = await axios.delete(`/api/jadwal/${jadwal_id}`);
+            alert(response.data.message);
+            window.location.reload();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    function nextPage() {
+        page++;
+        getDataJadwal();
+    }
+
+    function prevPage() {
+        if (page > 1) {
+            page--;
+            getDataJadwal();
+        }
+    }
+
+    function setSemester(event) {
+        semester = event.target.value;
+        getDataJadwal()
+    }
+
+    function setProdi(event) {
+        prodi = event.target.value;
+        getDataJadwal()
     }
 
     onMount(async () => {
@@ -24,18 +64,26 @@
     <a href="/admin/jadwal/create">
         <button class="button-input">+ Input Jadwal</button>
     </a>
-    <!--    <div class="controls">-->
-    <!--        <div class="show-entries">-->
-    <!--            Show-->
-    <!--            <select>-->
-    <!--                <option value="10">10</option>-->
-    <!--                <option value="25">25</option>-->
-    <!--                <option value="50">50</option>-->
-    <!--                <option value="100">100</option>-->
-    <!--            </select>-->
-    <!--            Entries-->
-    <!--        </div>-->
-    <!--    </div>-->
+    <div class="controls">
+        <label for="semester">Semester</label>
+        <select id="semester" name="semester" onchange={setSemester}>
+            <option value="">Pilih Semester</option>
+            <option value="1">Semester 1</option>
+            <option value="2">Semester 2</option>
+            <option value="3">Semester 3</option>
+            <option value="4">Semester 4</option>
+            <option value="5">Semester 5</option>
+            <option value="6">Semester 6</option>
+            <option value="7">Semester 7</option>
+            <option value="8">Semester 8</option>
+        </select>
+        <label for="semester">Prodi</label>
+        <select id="prodi" name="prodi" onchange={setProdi}>
+            <option value="">Pilih Prodi</option>
+            <option value="0801">Teknik Informatika</option>
+            <option value="0802">Sistem Informasi</option>
+        </select>
+    </div>
     {#if jadwalData}
         <div class="table-container">
             <table>
@@ -45,6 +93,7 @@
                     <th>Kode Mata Kuliah</th>
                     <th>Mata Kuliah</th>
                     <th>Waktu</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -52,10 +101,11 @@
                     <tr>
                         <td>{jd.jadwal_id}</td>
                         <td>{jd.kd_mk}</td>
-                        <td>{jd.mata_kuliah}</td>
+                        <td>{jd.matakuliah}</td>
+                        <td>{new Date(jd.waktu).toLocaleDateString('id-ID')}</td>
                         <td class="btn-container">
-                            <a href="/admin/prodi/edit/{jd.jadwal_id}" class="button-edit">Edit</a>
-                            <!--                            <button on:click={() => deleteMatakuliah(mk.kd_mk)} class="button-delete">Hapus</button>-->
+                            <a href="/admin/jadwal/edit/{jd.jadwal_id}" class="button-edit">Edit</a>
+                            <button onclick={() => deleteJadwal(jd.jadwal_id)} class="button-delete">Hapus</button>
                         </td>
                     </tr>
                 {/each}
@@ -67,11 +117,11 @@
         {#if jadwalData}
             <span>Showing {jadwalData.length} entries</span>
         {/if}
-        <!--        <div class="nav">-->
-        <!--            <a href="#">Previous</a>-->
-        <!--            <span>1</span>-->
-        <!--            <a href="#">Next</a>-->
-        <!--        </div>-->
+        <div class="nav">
+            <button onclick={prevPage}>Previous</button>
+            <span>{page}</span>
+            <button onclick={nextPage}>Next</button>
+        </div>
     </div>
 </div>
 

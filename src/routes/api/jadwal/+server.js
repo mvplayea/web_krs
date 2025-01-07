@@ -4,12 +4,18 @@ import {getParams} from "$lib/util.js";
 
 // Read
 export async function GET({url}) {
-    const [jadwal] = await connection.query(
-        `SELECT j.* FROM Jadwal j
-    LEFT JOIN mata_kuliah mk ON j.kd_mk = mk.kd_mk`
-    );
+    const semester = await getParams(url, 'semester');
+    const prodi = await getParams(url, 'prodi');
+    const page = await getParams(url, 'page');
 
-    return json({jadwal});
+    const pageNumber = page ? parseInt(page) : 1;  // Default to page 1
+
+    const jadwal = await connection.query(
+        `CALL GetJadwal(?, ?, ?)`,
+        [semester, prodi, pageNumber]
+    )
+
+    return json({jadwal: jadwal[0]});
 }
 
 //   Create

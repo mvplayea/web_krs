@@ -11,7 +11,7 @@
     const params = {
       nim: user.NIM
     }
-    const res = await axios.get('http://localhost:5173/api/jadwal', {params});
+    const res = await axios.get('http://localhost:5173/api/jadwal/krs', {params});
     
     return await res.data.jadwal;
   };
