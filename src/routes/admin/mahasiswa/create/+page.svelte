@@ -5,6 +5,7 @@
   let prodiData;
   let semesterData;
   
+  // IGNORE THIS API, THIS FOR OPTIONS ONLY
   async function getProdi() {
     try {
       const response = await axios.get('/api/prodi');
@@ -36,6 +37,7 @@
     semester_id: ''
   };
   
+  // CREATE API
   async function handleSubmit() {
     try {
       const response = await axios.post('/api/mahasiswa', {
@@ -75,7 +77,7 @@
 <div class="container">
   <h1>Student Registration Form</h1>
   
-  <form on:submit|preventDefault={handleSubmit}>
+  <form on:submit|preventDefault={handleSubmit} >
     <div class="form-group">
       <label for="NIM">NIM:</label>
       <input
@@ -91,7 +93,7 @@
       <label for="nama">Nama Mahasiswa:</label>
       <input
         type="text"
-        id="nama"
+        id="nama"/>
         bind:value={formData.nama_mahasiswa}
         required
       />
@@ -251,3 +253,4 @@
     }
   }
 </style>
+

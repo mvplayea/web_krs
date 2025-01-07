@@ -10,7 +10,10 @@ export async function GET() {
 export async function POST({request}) {
   const {username, password} = await request.json();
 
-  const mhs = await connection.query(`SELECT * FROM Mahasiswa WHERE NIM = ?`, [username]);
+  const mhs = await connection.query(`
+  SELECT * FROM Mahasiswa
+  WHERE Mahasiswa.NIM = ?`,
+    [username]);
 
   return json({mahasiswa: mhs[0]});
 }

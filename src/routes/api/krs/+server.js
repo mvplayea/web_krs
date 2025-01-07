@@ -1,9 +1,10 @@
-import {json} from '@sveltejs/kit';
+import { json } from '@sveltejs/kit';
 import connection from '$lib/db';
 
-export async function GET({url}) {
+// GET method
+export async function GET({ url }) {
   const nim = url.searchParams.get('nim');
-  
+
   const mahasiswa = await connection.query(
     `SELECT *
     FROM krs_mk
@@ -15,30 +16,75 @@ export async function GET({url}) {
     JOIN Jadwal ON Mata_Kuliah.kd_mk = Jadwal.kd_mk
     WHERE Mahasiswa.NIM = '${nim}'`
   );
+
+  return json({ krs: { ...mahasiswa } });
+}
+
+// POST method
+export async function POST({ request }) {
+  const { matakuliah, nim } = await request.json();
   
-  return json({krs: {...mahasiswa}});
-}
-
-export async function POST(request) {
-  const {kd_krs, kd_mk, NIM} = request.body;
+  const existingKRS = await connection.query(
+    `SELECT kd_krs FROM KRS WHERE nim = ?`,
+    [nim]
+  );
   
-  const krs = await connection.query(
-    `INSERT INTO krs (kd_krs, kd_mk, NIM) VALUES ('${kd_krs}', '${kd_mk}', '${NIM}')`
-  )
+  // Check if KRS already exists
+  let kd_krs;
+  if (existingKRS[0].length <= 0) {
+    kd_krs = "KRS" + nim;
+    await connection.query(
+      `INSERT INTO KRS (kd_krs, NIM) VALUES (?, ?)`,
+      [kd_krs, nim]
+    );
+  } else {
+    kd_krs = existingKRS[0][0]?.kd_krs;
+  }
   
-  return json({krs: {...krs}})
+  matakuliah.forEach(async (mk) => {
+    const { kd_mk } = mk;
+    
+    await connection.query(
+      `INSERT INTO krs_mk (kd_krs, kd_mk) VALUES (?, ?)`,
+      [kd_krs, kd_mk]
+    );
+  });
+  
+  return json({ message: 'success' });
 }
 
-//   Update
-export async function PUT() {
+// PUT method
+export async function PUT({ request }) {
+  const { kd_krs, kd_mk, NIM } = await request.json();
 
+  const result = await connection.query(
+    `UPDATE krs SET kd_mk = ?, NIM = ? WHERE kd_krs = ?`,
+    [kd_mk, NIM, kd_krs]
+  );
+
+  return json({ result });
 }
 
-export async function PUT() {
+// PATCH method
+export async function PATCH({ request }) {
+  const { kd_krs, kd_mk, NIM } = await request.json();
 
+  const result = await connection.query(
+    `UPDATE krs SET kd_mk = COALESCE(?, kd_mk), NIM = COALESCE(?, NIM) WHERE kd_krs = ?`,
+    [kd_mk, NIM, kd_krs]
+  );
+
+  return json({ result });
 }
 
-// delete
-export async function DELETE() {
+// DELETE method
+export async function DELETE({ request }) {
+  const { kd_krs } = await request.json();
 
+  const result = await connection.query(
+    `DELETE FROM krs WHERE kd_krs = ?`,
+    [kd_krs]
+  );
+
+  return json({ result });
 }
