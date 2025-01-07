@@ -167,11 +167,11 @@
     section {
         margin: 0;
         font-family: Arial, sans-serif;
-        background-color: #C2C8DA;
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
+        width: 100%;
     }
 
     .main {
@@ -179,7 +179,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #C2C8DA;
         height: 100vh;
         flex-wrap: wrap;
     }

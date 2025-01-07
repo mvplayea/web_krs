@@ -410,6 +410,67 @@ VALUES ('KRS001', '080101', 1),
 #
 # DELIMITER ;
 #
-# select routine_name from information_schema.routines where routine_type = 'PROCEDURE' and routine_schema = 'pengambilan_krs';
-#
+select routine_name from information_schema.routines where routine_type = 'PROCEDURE' and routine_schema = 'pengambilan_krs';
+
+DELIMITER //
+
+CREATE PROCEDURE InsertJadwal(IN p_kd_mk VARCHAR(10), IN p_waktu DATETIME)
+BEGIN
+    DECLARE last_id VARCHAR(10);
+    DECLARE new_id INT;
+    DECLARE mata_kuliah_name VARCHAR(255);
+
+    -- Get the last jadwal_id (without the 'JD' prefix)
+    SELECT MAX(CAST(SUBSTRING(jadwal_id, 3) AS UNSIGNED)) INTO new_id
+    FROM jadwal;
+
+    -- If no data exists, start from 1
+    IF new_id IS NULL THEN
+        SET new_id = 1;
+    ELSE
+        SET new_id = new_id + 1;
+    END IF;
+
+    -- Format the new jadwal_id as JDxxx (e.g., JD001, JD002, ...)
+    SET last_id = CONCAT('JD', LPAD(new_id, 3, '0'));
+
+    -- Fetch mata_kuliah based on kd_mk
+    SELECT matakuliah INTO mata_kuliah_name
+    FROM mata_kuliah
+    WHERE kd_mk = p_kd_mk;
+
+    -- Check if mata_kuliah exists, if not, set an error or handle it
+    IF mata_kuliah_name IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Mata Kuliah not found';
+    END IF;
+
+    -- Insert the new jadwal record with mata_kuliah
+    INSERT INTO jadwal (jadwal_id, kd_mk, waktu, mata_kuliah)
+    VALUES (last_id, p_kd_mk, p_waktu, mata_kuliah_name);
+
+END //
+
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS InsertJadwal;
+
+DELIMITER //
+
+CREATE TRIGGER BeforeDeleteMataKuliah
+    BEFORE DELETE ON mata_kuliah
+    FOR EACH ROW
+BEGIN
+    -- Delete the related rows in krs_mk where kd_mk matches the mata_kuliah being deleted
+    DELETE FROM krs_mk
+    WHERE kd_mk = OLD.kd_mk;
+
+END //
+
+DELIMITER ;
+
+show triggers  from pengambilan_krs;
 select * from pengambilan_krs.prodi;
+
+describe jadwal;
+describe mata_kuliah;

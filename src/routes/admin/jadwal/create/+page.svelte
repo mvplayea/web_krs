@@ -2,40 +2,25 @@
     import axios from "axios";
     import {onMount} from "svelte";
 
-    let prodiData;
-    let semesterData;
-
-    async function getProdi() {
-        try {
-            const response = await axios.get('/api/prodi');
-
-            prodiData = await response.data.prodi[0];
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-
-    async function getSemester() {
-        try {
-            const response = await axios.get('/api/semester');
-
-            semesterData = await response.data.semester[0];
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-
+    let matakuliahData;
     let formData = {
         kd_mk: '',
-        matakuliah: '',
-        sks: '',
-        kd_prodi: '',
-        semester_id: '',
+        waktu: '',
     };
+
+    async function getMatakuliah() {
+        try {
+            const response = await axios.get('/api/matakuliah');
+
+            matakuliahData = await response.data.matakuliah[0];
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
 
     async function handleSubmit() {
         try {
-            const response = await axios.post('/api/matakuliah', {
+            const response = await axios.post('/api/jadwal', {
                 ...formData,
             });
 
@@ -49,10 +34,7 @@
             // Reset form
             formData = {
                 kd_mk: '',
-                matakuliah: '',
-                sks: '',
-                kd_prodi: '',
-                semester_id: '',
+                waktu: '',
             };
         } catch (error) {
             console.error('Error:', error);
@@ -61,8 +43,7 @@
     }
 
     onMount(async () => {
-        await getProdi();
-        await getSemester();
+        await getMatakuliah();
     })
 </script>
 
@@ -137,65 +118,31 @@
     <div class="main">
         <div class="form-container">
             <div class="form-header">
-                + Input Mata Kuliah
+                + Input Jadwal
             </div>
             <form class="form-body" on:submit|preventDefault={handleSubmit}>
                 <div class="form-group">
                     <label for="kd_mk">Kode Mata Kuliah</label>
-                    <input
-                            type="text"
+                    <select
                             id="kd_mk"
-                            name="kd_mk"
                             bind:value={formData.kd_mk}
                             required
-                    />
-                </div>
-
-                <div class="form-group">
-                    <label for="matakuliah">Nama Mata Kuliah</label>
-                    <input
-                            type="text"
-                            id="matakuliah"
-                            bind:value={formData.matakuliah}
-                            required
-                    />
-                </div>
-
-                <div class="form-group">
-                    <label for="sks">SKS</label>
-                    <input
-                            type="number"
-                            id="sks"
-                            bind:value={formData.SKS}
-                            required
-                    />
-                </div>
-
-
-                <div class="form-group">
-                    <label for="kd_prodi">Kode Prodi:</label>
-                    <select
-                            id="kd_prodi"
-                            bind:value={formData.kd_prodi}
-                            required
                     >
-                        {#each prodiData as prodi}
-                            <option value={prodi.kd_prodi}>{prodi.nama_prodi}</option>
+                        {#each matakuliahData as mk}
+                            <option value={mk.kd_mk}>{mk.matakuliah}</option>
                         {/each}
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="semester_id">Semester ID:</label>
-                    <select
-                            id="semester_id"
-                            bind:value={formData.semester_id}
+                    <label for="waktu">Waktu</label>
+                    <input
+                            type="date"
+                            id="waktu"
+                            name="waktu"
+                            bind:value={formData.waktu}
                             required
-                    >
-                        {#each semesterData as semester}
-                            <option value={semester.semester_id}>{semester.semester_id}</option>
-                        {/each}
-                    </select>
+                    />
                 </div>
 
                 <button type="submit" class="submit-button">Simpan</button>
