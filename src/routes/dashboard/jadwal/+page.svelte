@@ -45,7 +45,8 @@
       <thead>
       
       <tr>
-        <th>Kode</th>
+        <td>Kode</td>
+        <th>Tanggal</th>
         <th>Kode MK</th>
         <th>Mata Kuliah</th>
       </tr>
@@ -53,8 +54,9 @@
       <tbody>
       {#each data as item}
         <tr>
+          <td>{item.jadwal_id}</td>
           <td>{new Date(item.waktu).toLocaleDateString('id-ID')}</td>
-          <td>{item.kode_mk}</td>
+          <td>{item.kd_mk}</td>
           <td>{item.mata_kuliah}</td>
         </tr>
       {/each}
