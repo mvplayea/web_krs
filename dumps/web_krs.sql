@@ -344,72 +344,71 @@ VALUES ('KRS001', '080101', 1),
        ('KRS007', '080104', 7),
        ('KRS008', '080204', 8);
 
-select *
-from mahasiswa;
-describe  mahasiswa;
-select *
-from mata_kuliah;
-select *
-from prodi;
-select *
-from jadwal;
-select *
-from krs_mk;
-select *
-select * from krs;
-from semester;
-
-
-select * from krs where;
-delete from krs where kd_KRS in ('KRS001', 'KRS080101');
-delete from krs_mk where kd_krs = 'KRS080101';
-select * from krs where nim ='080102';
-select * from krs;
-describe mata_kuliah;
-describe jadwal;
-
-delete from krs where nim = '080102';
-truncate krs_mk;
-select * from jadwal;
-
-select * from mata_kuliah;
-delete from krs where kd_KRS != 'KRS080101';
-select * from mata_kuliah;
-select * from krs;
-select * from krs_mk;
-select * from krs;
-select * from mahasiswa;
-
-describe krs_mk;
-select kd_mk from krs_mk join krs on krs.kd_KRS = krs_mk.kd_krs where krs.kd_KRS = 'KRS080101';
-
-select * from mata_kuliah where kd_mk not in ('TI001', 'TI002');
-use almuhajirin_db;
-describe transaction_product;
-select * from transaction_product order by id desc;
-select * from products order by id desc;
-
-
-insert into krs_mk (kd_krs, kd_mk) values ('KRS001', 'TI001');
-
-select * from mata_kuliah where semester_id = (select semester_id from mahasiswa where nim = '080101')
-and kd_prodi = (select kd_prodi from mahasiswa where nim = '080101')
-and kd_mk not in ('TI001', 'TI002');
-
-select * from mahasiswa;
-select * from krs;
-select * from krs_mk;
-
-DELIMITER //
-create procedure insert_krs_km (
-    in kd_krs varchar(15),
-    in kd_mk varchar(10)
-)
-BEGIN
-    INSERT INTO krs_mk (kd_krs, kd_mk) VALUES (kd_krs, kd_mk);
-end //
-
-DELIMITER ;
-
-select routine_name from information_schema.routines where routine_type = 'PROCEDURE' and routine_schema = 'pengambilan_krs';
-
+# select *
+# from mahasiswa;
+# describe  mahasiswa;
+# select *
+# from mata_kuliah;
+# select *
+# from prodi;
+# select *
+# from jadwal;
+# select *
+# from krs_mk;
+# select * from krs;
+# from semester;
+#
+#
+# select * from krs where;
+# delete from krs where kd_KRS in ('KRS001', 'KRS080101');
+# delete from krs_mk where kd_krs = 'KRS080101';
+# select * from krs where nim ='080102';
+# select * from krs;
+# describe mata_kuliah;
+# describe jadwal;
+#
+# delete from krs where nim = '080102';
+# truncate krs_mk;
+# select * from jadwal;
+#
+# select * from mata_kuliah;
+# delete from krs where kd_KRS != 'KRS080101';
+# select * from mata_kuliah;
+# select * from krs;
+# select * from krs_mk;
+# select * from krs;
+# select * from mahasiswa;
+#
+# describe krs_mk;
+# select kd_mk from krs_mk join krs on krs.kd_KRS = krs_mk.kd_krs where krs.kd_KRS = 'KRS080101';
+#
+# select * from mata_kuliah where kd_mk not in ('TI001', 'TI002');
+# use almuhajirin_db;
+# describe transaction_product;
+# select * from transaction_product order by id desc;
+# select * from products order by id desc;
+#
+#
+# insert into krs_mk (kd_krs, kd_mk) values ('KRS001', 'TI001');
+#
+# select * from mata_kuliah where semester_id = (select semester_id from mahasiswa where nim = '080101')
+# and kd_prodi = (select kd_prodi from mahasiswa where nim = '080101')
+# and kd_mk not in ('TI001', 'TI002');
+#
+# select * from mahasiswa;
+# select * from krs;
+# select * from krs_mk;
+#
+# DELIMITER //
+# create procedure insert_krs_km (
+#     in kd_krs varchar(15),
+#     in kd_mk varchar(10)
+# )
+# BEGIN
+#     INSERT INTO krs_mk (kd_krs, kd_mk) VALUES (kd_krs, kd_mk);
+# end //
+#
+# DELIMITER ;
+#
+# select routine_name from information_schema.routines where routine_type = 'PROCEDURE' and routine_schema = 'pengambilan_krs';
+#

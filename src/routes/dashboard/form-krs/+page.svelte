@@ -79,19 +79,7 @@
 </script>
 
 <section>
-  <!-- Header -->
-  <div class="header">
-    <div class="logo">Aetherion <br>University</div>
-    <div class="menu">
-      <a href="http://127.0.0.1:5501/beranda.html">BERANDA</a>
-      <a href="http://127.0.0.1:5501/profil.html">PROFIL</a>
-      <a href="http://127.0.0.1:5501/kelas.html">KRS</a>
-      <a href="http://127.0.0.1:5501/jadwal.html">JADWAL</a>
-    </div>
-  </div>
-  
   <!-- Lihat KRS (di bawah menu Beranda) -->
-  <a href="/dashboard/krs" class="btn-lihat-krs">Lihat KRS Anda</a>
   
   <!-- Notification -->
   <div class="notification">
@@ -156,7 +144,7 @@
       {/each}
       </tbody>
     </table>
-    <button onclick={saveKRS()}>
+    <button onclick={saveKRS()} class="btn-save-krs">
       <a href="#" class="btn-submit">Ambil Mata Kuliah</a>
     </button>
     
@@ -179,6 +167,8 @@
     font-family: Arial, sans-serif;
     background-color: #C2C8DA;
     color: #333;
+    height: 120vh;
+    padding-top: 3em;
   }
   
   /* Header */
@@ -233,6 +223,12 @@
   
   .btn-lihat-krs:hover {
     background-color: #5a276c;
+  }
+  
+  .btn-save-krs {
+    border: none;
+    padding: 0;
+    background-color: transparent;
   }
   
   /* Notification */

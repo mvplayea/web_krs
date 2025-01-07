@@ -4,7 +4,7 @@
   }
 </script>
 
-<section>
+<body>
   <p class="welcome-text">SELAMAT DATANG DI</p>
   <div class="container">
     <div class="content">
@@ -45,7 +45,7 @@
       <img src="https://images.pexels.com/photos/256455/pexels-photo-256455.jpeg" alt="Library"/>
     </div>
   </div>
-</section>
+</body>
 
 <style>
   * {

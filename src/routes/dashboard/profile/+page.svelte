@@ -57,68 +57,10 @@
     box-sizing: border-box;
   }
   
-  body {
+  section {
     font-family: Arial, sans-serif;
     background: #C2C8DA;
     height: 100vh;
-  }
-  
-  .top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background-color: #763497;
-    color: #C2C8DA;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 10;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .top-bar .logo {
-    text-align: left;
-    font-size: 1.8rem;
-  }
-  
-  .top-bar .nav {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-  }
-  
-  .top-bar .nav a {
-    color: #f5f5f5;
-    text-decoration: none;
-    font-size: 1rem;
-    padding: 8px 12px;
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .top-bar .nav a:hover {
-    background-color: #f5f5f5;
-    color: #333;
-  }
-  
-  .exit-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    background-color: #000;
-    color: #FFF;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .top-bar .exit-button:hover {
-    background-color: #d1d1d1;
   }
   
   .container {

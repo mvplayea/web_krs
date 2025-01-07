@@ -22,100 +22,62 @@
   });
 </script>
 
-<div class="container">
-  <div class="header">Jadwal Perkuliahan</div>
+<section>
   
-  {#if user}
-    <div class="info-box">
-      <div>
-        <p>Nama Mahasiswa : {user && user.nama_mahasiswa}</p>
-        <p>NIM : {user && user.NIM}</p>
-        <p>Jenis Kelamin : {user && user.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan'}</p>
+  <div class="container">
+    <div class="header">Jadwal Perkuliahan</div>
+    
+    {#if user}
+      <div class="info-box">
+        <div>
+          <p>Nama Mahasiswa : {user && user.nama_mahasiswa}</p>
+          <p>NIM : {user && user.NIM}</p>
+          <p>Jenis Kelamin : {user && user.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan'}</p>
+        </div>
+        <div>
+          <p>Fakultas/Prodi : {user && user.nama_prodi}</p>
+          <p>Semester MHS : {user && user.semester_id}</p>
+        </div>
       </div>
-      <div>
-        <p>Fakultas/Prodi : {user && user.nama_prodi}</p>
-        <p>Semester MHS : {user && user.semester_id}</p>
-      </div>
-    </div>
-  {/if}
-  
-  <div class="schedule-section">
-    <div class="schedule-title">Jadwal Perkuliahan Mingguan</div>
-    <table class="schedule-table">
-      <thead>
-      
-      <tr>
-        <td>Kode</td>
-        <th>Tanggal</th>
-        <th>Kode MK</th>
-        <th>Mata Kuliah</th>
-      </tr>
-      </thead>
-      <tbody>
-      {#each data as item}
+    {/if}
+    
+    <div class="schedule-section">
+      <div class="schedule-title">Jadwal Perkuliahan Mingguan</div>
+      <table class="schedule-table">
+        <thead>
+        
         <tr>
-          <td>{item.jadwal_id}</td>
-          <td>{new Date(item.waktu).toLocaleDateString('id-ID')}</td>
-          <td>{item.kd_mk}</td>
-          <td>{item.mata_kuliah}</td>
+          <td>Kode</td>
+          <th>Tanggal</th>
+          <th>Kode MK</th>
+          <th>Mata Kuliah</th>
         </tr>
-      {/each}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+        {#each data as item}
+          <tr>
+            <td>{item.jadwal_id}</td>
+            <td>{new Date(item.waktu).toLocaleDateString('id-ID')}</td>
+            <td>{item.kd_mk}</td>
+            <td>{item.mata_kuliah}</td>
+          </tr>
+        {/each}
+        </tbody>
+      </table>
+    </div>
+    <a href="http://127.0.0.1:5501/beranda.html" class="back-button">Kembali</a>
   </div>
-  
-  <a href="http://127.0.0.1:5501/beranda.html" class="back-button">Kembali</a>
-</div>
+</section>
 
 <style>
   section {
     font-family: 'Roboto', Arial, sans-serif;;
-    background-color: #763497;;
+    background-color: #763497;
     color: #000000;
     display: flex;
     justify-content: center;
     padding: 20px;
-  }
-  
-  .top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 20px;
-    background-color: #C2C8DA;
-    color: #000000;
-    position: fixed;
-    width: 97%;
-    top: 0;
-    z-index: 10;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .top-bar .logo {
-    text-align: left;
-    font-size: 1.8rem;
-    margin-left: 1px;
-  }
-  
-  .top-bar .nav {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-  }
-  
-  .top-bar .nav a {
-    color: #000000;
-    text-decoration: none;
-    font-size: 1rem;
-    padding: 8px 12px;
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .top-bar .nav a:hover {
-    background-color: #f5f5f5;
-    color: #333;
+    height: 100vh;
   }
   
   .container {

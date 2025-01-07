@@ -1,11 +1,25 @@
-<div class="container">
-  <div class="image-container">
-    <img src="images/logo.jpg" alt="Logo">
+<script>
+  import logo from "$lib/assets/logo.jpg";
+</script>
+<section>
+  <div class="container">
+    <div class="image-container">
+      <img src={logo} alt="Logo">
+    </div>
+    <h1><span class="black-text">KARTU RENCANA </span><br><span class="white-text">STUDI MAHASISWA</span></h1>
   </div>
-  <h1><span class="black-text">KARTU RENCANA </span><br><span class="white-text">STUDI MAHASISWA</span></h1>
-</div>
+</section>
 
 <style>
+  section {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', Arial, sans-serif;
+    height: 100vh;
+    background: linear-gradient(to bottom, #D9D9D9 50%, #763497 50%);
+    color: #333;
+  }
+  
   .container {
     display: flex;
     justify-content: center;
