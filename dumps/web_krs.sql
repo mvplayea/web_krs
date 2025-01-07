@@ -469,6 +469,45 @@ END //
 
 DELIMITER ;
 
+DELIMITER //
+
+CREATE PROCEDURE GetMataKuliah(
+    IN p_semester INT,
+    IN p_prodi INT,
+    IN p_page INT
+)
+BEGIN
+    DECLARE v_offset INT;
+
+    -- Calculate the offset for pagination (fixed LIMIT of 10)
+    SET v_offset = (p_page - 1) * 10;
+
+    -- Query with filtering and pagination
+    IF p_semester IS NOT NULL AND p_prodi IS NOT NULL THEN
+        SELECT * FROM mata_kuliah
+                          JOIN prodi ON mata_kuliah.kd_prodi = prodi.kd_prodi
+        WHERE semester_id = p_semester
+          AND mata_kuliah.kd_prodi = p_prodi
+        LIMIT 10 OFFSET v_offset;
+    ELSEIF p_semester IS NOT NULL THEN
+        SELECT * FROM mata_kuliah
+                          JOIN prodi ON mata_kuliah.kd_prodi = prodi.kd_prodi
+        WHERE semester_id = p_semester
+        LIMIT 10 OFFSET v_offset;
+    ELSEIF p_prodi IS NOT NULL THEN
+        SELECT * FROM mata_kuliah
+                          JOIN prodi ON mata_kuliah.kd_prodi = prodi.kd_prodi
+        WHERE mata_kuliah.kd_prodi = p_prodi
+        LIMIT 10 OFFSET v_offset;
+    ELSE
+        SELECT * FROM mata_kuliah
+                          JOIN prodi ON mata_kuliah.kd_prodi = prodi.kd_prodi
+        LIMIT 10 OFFSET v_offset;
+    END IF;
+END //
+
+DELIMITER ;
+
 show triggers  from pengambilan_krs;
 select * from pengambilan_krs.prodi;
 

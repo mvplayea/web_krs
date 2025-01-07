@@ -3,14 +3,44 @@
     import {onMount} from "svelte";
 
     let matakuliahData;
+    let page = 1;
+    let semester;
+    let prodi;
 
     async function getDataMatakuliah() {
+        const params = {
+            page,
+            semester,
+            prodi,
+        }
         try {
-            const response = await axios.get('/api/matakuliah');
+            const response = await axios.get('/api/matakuliah', {params});
             matakuliahData = await response.data.matakuliah[0];
         } catch (error) {
             console.error('Error:', error);
         }
+    }
+
+    function nextPage() {
+        page++;
+        getDataMatakuliah();
+    }
+
+    function prevPage() {
+        if (page > 1) {
+            page--;
+            getDataMatakuliah();
+        }
+    }
+
+    function setSemester(event) {
+        semester = event.target.value;
+        getDataMatakuliah()
+    }
+
+    function setProdi(event) {
+        prodi = event.target.value;
+        getDataMatakuliah()
     }
 
     async function deleteMatakuliah(kd_mk) {
@@ -33,18 +63,36 @@
     <a href="/admin/matakuliah/create">
         <button class="button-input">+ Input Matakuliah</button>
     </a>
-    <!--    <div class="controls">-->
-    <!--        <div class="show-entries">-->
-    <!--            Show-->
-    <!--            <select>-->
-    <!--                <option value="10">10</option>-->
-    <!--                <option value="25">25</option>-->
-    <!--                <option value="50">50</option>-->
-    <!--                <option value="100">100</option>-->
-    <!--            </select>-->
-    <!--            Entries-->
-    <!--        </div>-->
-    <!--    </div>-->
+    <div class="controls">
+        <label for="semester">Semester</label>
+        <select id="semester" name="semester" onchange={setSemester}>
+            <option value="">Pilih Semester</option>
+            <option value="1">Semester 1</option>
+            <option value="2">Semester 2</option>
+            <option value="3">Semester 3</option>
+            <option value="4">Semester 4</option>
+            <option value="5">Semester 5</option>
+            <option value="6">Semester 6</option>
+            <option value="7">Semester 7</option>
+            <option value="8">Semester 8</option>
+        </select>
+        <label for="semester">Prodi</label>
+        <select id="prodi" name="prodi" onchange={setProdi}>
+            <option value="">Pilih Prodi</option>
+            <option value="0801">Teknik Informatika</option>
+            <option value="0802">Sistem Informasi</option>
+        </select>
+        <!--            <div class="show-entries">-->
+        <!--                Show-->
+        <!--                <select>-->
+        <!--                    <option value="10">10</option>-->
+        <!--                    <option value="25">25</option>-->
+        <!--                    <option value="50">50</option>-->
+        <!--                    <option value="100">100</option>-->
+        <!--                </select>-->
+        <!--                Entries-->
+        <!--            </div>-->
+    </div>
     {#if matakuliahData}
         <div class="table-container">
             <table>
@@ -68,7 +116,7 @@
                         <td>{mk.semester_id}</td>
                         <td class="btn-container">
                             <a href="/admin/matakuliah/edit/{mk.kd_mk}" class="button-edit">Edit</a>
-                            <button on:click={() => deleteMatakuliah(mk.kd_mk)} class="button-delete">Hapus</button>
+                            <button onclick={() => deleteMatakuliah(mk.kd_mk)} class="button-delete">Hapus</button>
                         </td>
                     </tr>
                 {/each}
@@ -80,11 +128,11 @@
         {#if matakuliahData}
             <span>Showing {matakuliahData.length} entries</span>
         {/if}
-        <!--        <div class="nav">-->
-        <!--            <a href="#">Previous</a>-->
-        <!--            <span>1</span>-->
-        <!--            <a href="#">Next</a>-->
-        <!--        </div>-->
+        <div class="nav">
+            <button onclick={prevPage}>Previous</button>
+            <span>{page}</span>
+            <button onclick={nextPage}>Next</button>
+        </div>
     </div>
 </div>
 
@@ -97,7 +145,7 @@
     .sidebar {
         width: 20%;
         background-color: #d3d3e1;
-        height: 100vh;
+        min-height: 100vh;
         padding: 15px;
         box-sizing: border-box;
         float: left;
@@ -142,7 +190,7 @@
         padding: 20px;
         background-color: #763497;
         color: white;
-        height: 100vh;
+        min-height: 100vh;
         box-sizing: border-box;
         width: 100%;
     }
