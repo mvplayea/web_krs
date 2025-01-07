@@ -344,133 +344,9 @@ VALUES ('KRS001', '080101', 1),
        ('KRS007', '080104', 7),
        ('KRS008', '080204', 8);
 
-# select *
-# from mahasiswa;
-# describe  mahasiswa;
-# select *
-# from mata_kuliah;
-# select *
-# from prodi;
-# select *
-# from jadwal;
-# select *
-# from krs_mk;
-# select * from krs;
-# from semester;
-#
-#
-# select * from krs where;
-# delete from krs where kd_KRS in ('KRS001', 'KRS080101');
-# delete from krs_mk where kd_krs = 'KRS080101';
-# select * from krs where nim ='080102';
-# select * from krs;
-# describe mata_kuliah;
-# describe jadwal;
-#
-# delete from krs where nim = '080102';
-# truncate krs_mk;
-# select * from jadwal;
-#
-# select * from mata_kuliah;
-# delete from krs where kd_KRS != 'KRS080101';
-# select * from mata_kuliah;
-# select * from krs;
-# select * from krs_mk;
-# select * from krs;
-# select * from mahasiswa;
-#
-# describe krs_mk;
-# select kd_mk from krs_mk join krs on krs.kd_KRS = krs_mk.kd_krs where krs.kd_KRS = 'KRS080101';
-#
-# select * from mata_kuliah where kd_mk not in ('TI001', 'TI002');
-# use almuhajirin_db;
-# describe transaction_product;
-# select * from transaction_product order by id desc;
-# select * from products order by id desc;
-#
-#
-# insert into krs_mk (kd_krs, kd_mk) values ('KRS001', 'TI001');
-#
-# select * from mata_kuliah where semester_id = (select semester_id from mahasiswa where nim = '080101')
-# and kd_prodi = (select kd_prodi from mahasiswa where nim = '080101')
-# and kd_mk not in ('TI001', 'TI002');
-#
-# select * from mahasiswa;
-# select * from krs;
-# select * from krs_mk;
-#
-# DELIMITER //
-# create procedure insert_krs_km (
-#     in kd_krs varchar(15),
-#     in kd_mk varchar(10)
-# )
-# BEGIN
-#     INSERT INTO krs_mk (kd_krs, kd_mk) VALUES (kd_krs, kd_mk);
-# end //
-#
-# DELIMITER ;
-#
-select routine_name from information_schema.routines where routine_type = 'PROCEDURE' and routine_schema = 'pengambilan_krs';
 
+#  STORE PROCEDURE
 DELIMITER //
-
-CREATE PROCEDURE InsertJadwal(IN p_kd_mk VARCHAR(10), IN p_waktu DATETIME)
-BEGIN
-    DECLARE last_id VARCHAR(10);
-    DECLARE new_id INT;
-    DECLARE mata_kuliah_name VARCHAR(255);
-
-    -- Get the last jadwal_id (without the 'JD' prefix)
-    SELECT MAX(CAST(SUBSTRING(jadwal_id, 3) AS UNSIGNED)) INTO new_id
-    FROM jadwal;
-
-    -- If no data exists, start from 1
-    IF new_id IS NULL THEN
-        SET new_id = 1;
-    ELSE
-        SET new_id = new_id + 1;
-    END IF;
-
-    -- Format the new jadwal_id as JDxxx (e.g., JD001, JD002, ...)
-    SET last_id = CONCAT('JD', LPAD(new_id, 3, '0'));
-
-    -- Fetch mata_kuliah based on kd_mk
-    SELECT matakuliah INTO mata_kuliah_name
-    FROM mata_kuliah
-    WHERE kd_mk = p_kd_mk;
-
-    -- Check if mata_kuliah exists, if not, set an error or handle it
-    IF mata_kuliah_name IS NULL THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Mata Kuliah not found';
-    END IF;
-
-    -- Insert the new jadwal record with mata_kuliah
-    INSERT INTO jadwal (jadwal_id, kd_mk, waktu, mata_kuliah)
-    VALUES (last_id, p_kd_mk, p_waktu, mata_kuliah_name);
-
-END //
-
-DELIMITER ;
-
-
-DROP PROCEDURE IF EXISTS InsertJadwal;
-
-DELIMITER //
-
-CREATE TRIGGER BeforeDeleteMataKuliah
-    BEFORE DELETE ON mata_kuliah
-    FOR EACH ROW
-BEGIN
-    -- Delete the related rows in krs_mk where kd_mk matches the mata_kuliah being deleted
-    DELETE FROM krs_mk
-    WHERE kd_mk = OLD.kd_mk;
-
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
 CREATE PROCEDURE GetMataKuliah(
     IN p_semester INT,
     IN p_prodi INT,
@@ -505,11 +381,9 @@ BEGIN
         LIMIT 10 OFFSET v_offset;
     END IF;
 END //
-
 DELIMITER ;
 
 DELIMITER //
-
 CREATE PROCEDURE GetJadwal(
     IN p_semester INT,
     IN p_prodi INT,
@@ -550,5 +424,58 @@ BEGIN
         LIMIT 10 OFFSET v_offset;
     END IF;
 END //
-
 DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE InsertJadwal(IN p_kd_mk VARCHAR(10), IN p_waktu DATETIME)
+BEGIN
+    DECLARE last_id VARCHAR(10);
+    DECLARE new_id INT;
+    DECLARE mata_kuliah_name VARCHAR(255);
+
+    -- Get the last jadwal_id (without the 'JD' prefix)
+    SELECT MAX(CAST(SUBSTRING(jadwal_id, 3) AS UNSIGNED)) INTO new_id
+    FROM jadwal;
+
+    -- If no data exists, start from 1
+    IF new_id IS NULL THEN
+        SET new_id = 1;
+    ELSE
+        SET new_id = new_id + 1;
+    END IF;
+
+    -- Format the new jadwal_id as JDxxx (e.g., JD001, JD002, ...)
+    SET last_id = CONCAT('JD', LPAD(new_id, 3, '0'));
+
+    -- Fetch mata_kuliah based on kd_mk
+    SELECT matakuliah INTO mata_kuliah_name
+    FROM mata_kuliah
+    WHERE kd_mk = p_kd_mk;
+
+    -- Check if mata_kuliah exists, if not, set an error or handle it
+    IF mata_kuliah_name IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Mata Kuliah not found';
+    END IF;
+
+    -- Insert the new jadwal record with mata_kuliah
+    INSERT INTO jadwal (jadwal_id, kd_mk, waktu, mata_kuliah)
+    VALUES (last_id, p_kd_mk, p_waktu, mata_kuliah_name);
+
+END //
+DELIMITER ;
+
+# TRIGGER
+DELIMITER //
+CREATE TRIGGER BeforeDeleteMataKuliah
+    BEFORE DELETE ON mata_kuliah
+    FOR EACH ROW
+BEGIN
+    DELETE FROM krs_mk
+    WHERE kd_mk = OLD.kd_mk;
+
+    DELETE FROM jadwal
+    WHERE kd_mk = OLD.kd_mk;
+
+END //
+DELIMITER ;
+

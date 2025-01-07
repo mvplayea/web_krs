@@ -22,9 +22,9 @@
 
 <div class="main">
     <h1>Manajemen Program Studi</h1>
-    <a href="/admin/prodi/create">
-        <button class="button-input">+ Input Program Studi</button>
-    </a>
+<!--    <a href="/admin/prodi/create">-->
+<!--&lt;!&ndash;        <button class="button-input">+ Input Program Studi</button>&ndash;&gt;-->
+<!--    </a>-->
     <!--    <div class="controls">-->
     <!--        <div class="show-entries">-->
     <!--            Show-->
@@ -44,7 +44,7 @@
                 <tr>
                     <th>Kode Prodi</th>
                     <th>Program Studi</th>
-                    <th>Actions</th>
+<!--                    <th>Actions</th>-->
                 </tr>
                 </thead>
                 <tbody>
@@ -52,10 +52,10 @@
                     <tr>
                         <td>{pd.kd_prodi}</td>
                         <td>{pd.nama_prodi}</td>
-                        <td class="btn-container">
-                            <a href="/admin/prodi/edit/{pd.kd_mk}" class="button-edit">Edit</a>
+<!--                        <td class="btn-container">-->
+<!--                            <a href="/admin/prodi/edit/{pd.kd_mk}" class="button-edit">Edit</a>-->
 <!--                            <button on:click={() => deleteMatakuliah(mk.kd_mk)} class="button-delete">Hapus</button>-->
-                        </td>
+<!--                        </td>-->
                     </tr>
                 {/each}
                 </tbody>

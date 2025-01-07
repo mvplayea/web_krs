@@ -139,7 +139,7 @@
         padding: 20px;
         background-color: #763497;
         color: white;
-        height: 100vh;
+        min-height: 100vh;
         box-sizing: border-box;
         width: 100%;
     }

@@ -10,33 +10,45 @@
     }
 
     .sidebar {
-        background-color: #7766C6; /* Blue background */
-        color: white;
-        min-height: 100vh;
-        padding: 2em;
+        width: 20%;
+        background-color: #d3d3e1;
+        height: 100vh;
+        padding: 15px;
         box-sizing: border-box;
+        float: left;
     }
 
-    .sidebar a {
-        display: flex;
-        align-items: center;
-        gap: 10px;
+    .sidebar h2 {
+        margin: 0;
+        margin-bottom: 20px;
+        font-size: 20px;
+        text-align: center;
+        color: #000;
+    }
+
+    .sidebar ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .sidebar ul li {
+        margin-bottom: 20px;
+    }
+
+    .sidebar ul li a {
         text-decoration: none;
+        color: #000;
+        padding: 5px;
+        display: block;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .sidebar ul li a:hover,
+    .sidebar ul li a:active,
+    .sidebar ul li a:focus {
+        background-color: #763497;
         color: white;
-        font-size: 16px;
-        padding: 10px;
-        border-radius: 4px;
-        margin-bottom: 10px;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-    }
-
-    .sidebar a:hover {
-        background-color: #7766F1; /* Darker blue on hover */
-        transform: scale(1.05);
-    }
-
-    .sidebar a:active {
-        transform: scale(1);
     }
 
     .icon {
@@ -58,18 +70,13 @@
 
 <section>
     <div class="sidebar">
-        <a href="/admin/mahasiswa">
-            Mahasiswa
-        </a>
-        <a href="/admin/matakuliah">
-            Mata Kuliah
-        </a>
-        <a href="/admin/jadwal">
-            Jadwal
-        </a>
-        <a href="/admin/prodi">
-            Program Studi
-        </a>
+        <h2>Aetherion University</h2>
+        <ul>
+            <li><a href="/admin/mahasiswa">Manajemen Mahasiswa</a></li>
+            <li><a href="/admin/matakuliah">Manajemen Mata Kuliah</a></li>
+            <li><a href="/admin/jadwal">Manajemen Jadwal</a></li>
+            <li><a href="/admin/prodi">Program Studi</a></li>
+        </ul>
     </div>
     <div class="content">
         {@render children()}
