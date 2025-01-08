@@ -2,21 +2,23 @@ import {json} from '@sveltejs/kit';
 import connection from '$lib/db';
 
 export async function GET() {
-  const mhs = await connection.query("SELECT * FROM MAHASISWA")
+    const mhs = await connection.query("SELECT * FROM MAHASISWA")
 
-  return json({data: mhs})
+    return json({data: mhs})
 }
 
 export async function POST({request}) {
-  const {username, password} = await request.json();
+    const {username, password} = await request.json();
 
-  const mhs = await connection.query(`
+    const mhs = await connection.query(`
   SELECT * FROM Mahasiswa
   JOIN Prodi ON Mahasiswa.kd_prodi = Prodi.kd_prodi
-  WHERE Mahasiswa.NIM = ?`,[username]);
+  WHERE Mahasiswa.NIM = ?`, [username]);
 
-  console.log(mhs)
-  return json({mahasiswa: mhs[0]});
+    if (mhs[0].length === 0) {
+        return json({message: 'NIM tidak ditemukan'}, {status: 404});
+    }
+    return json({mahasiswa: mhs[0]});
 }
 
 //   Update

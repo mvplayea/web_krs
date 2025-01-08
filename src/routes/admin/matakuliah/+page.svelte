@@ -111,7 +111,7 @@
                     <tr>
                         <td>{mk.kd_mk}</td>
                         <td>{mk.matakuliah}</td>
-                        <td>{mk.sks}</td>
+                        <td>{mk.SKS}</td>
                         <td>{mk.kd_prodi}</td>
                         <td>{mk.semester_id}</td>
                         <td class="btn-container">
