@@ -4,7 +4,7 @@
   }
 </script>
 
-<body>
+<section>
   <p class="welcome-text">SELAMAT DATANG DI</p>
   <div class="container">
     <div class="content">
@@ -45,7 +45,7 @@
       <img src="https://images.pexels.com/photos/256455/pexels-photo-256455.jpeg" alt="Library"/>
     </div>
   </div>
-</body>
+</section>
 
 <style>
   * {
@@ -54,8 +54,8 @@
     box-sizing: border-box;
     font-family: Arial, sans-serif;
   }
-  
-  body {
+
+  section {
     padding-top: 20px;
     background-color: #763497;
     font-size: 1rem;

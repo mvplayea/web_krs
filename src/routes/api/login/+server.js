@@ -10,6 +10,10 @@ export async function GET() {
 export async function POST({request}) {
     const {username, password} = await request.json();
 
+    if (username !== password) {
+        return json({message: 'Salah'}, {status: 404});
+    }
+
     const mhs = await connection.query(`
   SELECT * FROM Mahasiswa
   JOIN Prodi ON Mahasiswa.kd_prodi = Prodi.kd_prodi
