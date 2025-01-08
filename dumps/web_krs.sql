@@ -464,6 +464,32 @@ BEGIN
 END //
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE InsertKRS_MK(
+    IN p_nim VARCHAR(15),
+    IN p_kd_mk VARCHAR(10)
+)
+BEGIN
+    DECLARE v_kd_krs VARCHAR(20);
+
+    START TRANSACTION;
+
+    -- Check if KRS already exists
+    SELECT kd_krs INTO v_kd_krs FROM krs WHERE nim = p_nim LIMIT 1;
+
+    -- If not, create new KRS
+    IF v_kd_krs IS NULL THEN
+        SET v_kd_krs = CONCAT('KRS', p_nim);
+        INSERT INTO krs (kd_krs, nim) VALUES (v_kd_krs, p_nim);
+    END IF;
+
+    -- Insert the course (kd_mk) into krs_mk
+    INSERT INTO krs_mk (kd_krs, kd_mk) VALUES (v_kd_krs, p_kd_mk);
+
+    COMMIT;
+END //
+DELIMITER ;
+
 # TRIGGER
 DELIMITER //
 CREATE TRIGGER BeforeDeleteMataKuliah
@@ -478,4 +504,3 @@ BEGIN
 
 END //
 DELIMITER ;
-

@@ -15,44 +15,23 @@ export async function GET({ url }) {
     WHERE Mahasiswa.NIM = '${nim}'`
   );
 
-  console.log(mahasiswa)
   return json({ krs: { ...mahasiswa } });
 }
 
 // POST method
 export async function POST({ request }) {
-  const { matakuliah, nim } = await request.json();
-  
-  const existingKRS = await connection.query(
-    `SELECT kd_krs FROM KRS WHERE nim = ?`,
-    [nim]
-  );
-  
-  // Check if KRS already exists
-  let kd_krs;
-  if (existingKRS[0].length <= 0) {
-    kd_krs = "KRS" + nim;
-    await connection.query(
-      `INSERT INTO KRS (kd_krs, NIM) VALUES (?, ?)`,
-      [kd_krs, nim]
-    );
-  } else {
-    kd_krs = existingKRS[0][0]?.kd_krs;
-  }
-  
-  console.log(matakuliah)
-  matakuliah.forEach(async (mk) => {
-    const { kd_mk } = mk;
-    console.log(mk)
-    console.log(kd_mk)
-    
-    await connection.query(
-      `INSERT INTO krs_mk (kd_krs, kd_mk) VALUES (?, ?)`,
-      [kd_krs, kd_mk]
-    );
-  });
-  
-  return json({ message: 'success' });
+    const { matakuliah, nim } = await request.json();
+
+    for (const mk of matakuliah) {
+        const { kd_mk } = mk;
+
+        await connection.query(
+            `CALL InsertKRS_MK(?, ?)`,
+            [nim, kd_mk]
+        );
+    }
+
+    return json({ message: 'success' });
 }
 
 // PUT method
