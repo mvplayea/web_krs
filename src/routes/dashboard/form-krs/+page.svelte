@@ -98,16 +98,31 @@
     <!-- Lihat KRS (di bawah menu Beranda) -->
 
     <!-- Notification -->
-    <div class="notification">
-        <div class="left">PERHATIAN!</div>
-        <div class="middle">Sistem KRS anda belum tervalidasi</div>
-        <div class="right">Jika KRS belum tervalidasi, maka mahasiswa tidak dapat mengikuti perkuliahan</div>
-    </div>
-    <div class="notification-footer">
-        Silahkan memilih kelas perkuliahan terlebih dahulu
-    </div>
+    <!--    <div class="notification">-->
+    <!--        <div class="left">PERHATIAN!</div>-->
+    <!--        <div class="middle">Sistem KRS anda belum tervalidasi</div>-->
+    <!--        <div class="right">Jika KRS belum tervalidasi, maka mahasiswa tidak dapat mengikuti perkuliahan</div>-->
+    <!--    </div>-->
+    <!--    <div class="notification-footer">-->
+    <!--        Silahkan memilih kelas perkuliahan terlebih dahulu-->
+    <!--    </div>-->
 
-    <!--  KRS ANDAJ-->
+    <div class="header">
+        <!--  KRS ANDAJ-->
+        {#if user}
+            <div class="info-box">
+                <div>
+                    <p>Nama Mahasiswa : {user && user.nama_mahasiswa}</p>
+                    <p>NIM : {user && user.NIM}</p>
+                    <p>Jenis Kelamin : {user && user.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan'}</p>
+                </div>
+                <div>
+                    <p>Fakultas/Prodi : {user && user.nama_prodi}</p>
+                    <p>Semester MHS : {user && user.semester_id}</p>
+                </div>
+            </div>
+        {/if}
+    </div>
 
     <!-- Main Content -->
     <div class="container">
@@ -141,7 +156,7 @@
 
         <h2>Pilihan Kelas Perkuliahan</h2>
         <hr class="hr-divider">
-        <h3>Semester Satu <span class="semester-info">Semester Ganjil 2024-2025</span></h3>
+        <!--        <h3>Semester Satu <span class="semester-info">Semester Ganjil 2024-2025</span></h3>-->
         <table>
             <thead>
             <tr>
@@ -149,7 +164,6 @@
                 <th>Kode</th>
                 <th>Nama Matakuliah</th>
                 <th>SKS</th>
-                <th>Jadwal Perkuliahan</th>
                 <th>Jenis Kelas</th>
             </tr>
             </thead>
@@ -161,7 +175,6 @@
                     <td>{mk.kd_mk}</td>
                     <td>{mk.matakuliah}</td>
                     <td>{mk.SKS}</td>
-                    <td>{mk.jadwal}</td>
                     <td>TATAP MUKA</td>
                 </tr>
             {/each}
@@ -190,42 +203,33 @@
         font-family: Arial, sans-serif;
         background-color: #C2C8DA;
         color: #333;
-        height: 120vh;
-        padding-top: 3em;
+        min-height: 120vh;
+        padding-top: 6em;
     }
 
     /* Header */
     .header {
-        background-color: #763497;
-        color: white;
-        padding: 10px 20px;
+        text-align: center;
+        width: 80%;
+        margin: auto;
+    }
+
+    .info-box {
+        background-color: #f2f2f2;
+        padding: 15px;
+        border-radius: 10px;
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        margin-bottom: 20px;
+        margin: auto;
     }
 
-    .header .logo {
-        font-size: 1.5rem;
-        color: #C2C8DA;
+    .info-box div {
+        width: 45%;
     }
 
-    .header .menu {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        flex: 2;
-    }
-
-    .header .menu a {
-        color: white;
-        text-decoration: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-    }
-
-    .header .menu a:hover {
-        background-color: #C2C8DA;
+    .info-box div p {
+        margin: 8px 0;
     }
 
     /* Lihat KRS (di bawah menu Beranda) */

@@ -21,7 +21,7 @@ export async function GET({url}) {
     const prodi = await getParams(url, 'prodi');
     const page = await getParams(url, 'page');
 
-    const pageNumber = page ? parseInt(page) : 1;  // Default to page 1
+    const pageNumber = page ? parseInt(page) : 0;  // Default to page 1
 
     const matakuliah = await connection.query(
         `CALL GetMataKuliah(?, ?, ?)`,

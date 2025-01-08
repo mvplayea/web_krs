@@ -3,14 +3,24 @@
     import {onMount} from "svelte";
 
     let matakuliahData;
+    let semester_id;
     let formData = {
         kd_mk: '',
         waktu: '',
     };
 
+    function setSemester (e) {
+        semester_id = e.target.value;
+        getMatakuliah()
+    }
+
     async function getMatakuliah() {
+        const params = {
+            semester_id,
+        }
+
         try {
-            const response = await axios.get('/api/matakuliah');
+            const response = await axios.get('/api/jadwal/matkul', {params});
 
             matakuliahData = await response.data.matakuliah[0];
         } catch (error) {
@@ -121,6 +131,26 @@
                 + Input Jadwal
             </div>
             <form class="form-body" on:submit|preventDefault={handleSubmit}>
+                <div class="form-group">
+                    <label for="semester_id">Semester</label>
+                    <select
+                            id="semester_id"
+                            bind:value={semester_id}
+                            required
+                            on:change={setSemester}
+                    >
+                        <option value="">Pilih Semester</option>
+                        <option value="1">Semester 1</option>
+                        <option value="2">Semester 2</option>
+                        <option value="3">Semester 3</option>
+                        <option value="4">Semester 4</option>
+                        <option value="5">Semester 5</option>
+                        <option value="6">Semester 6</option>
+                        <option value="7">Semester 7</option>
+                        <option value="8">Semester 8</option>
+                    </select>
+                </div>
+
                 <div class="form-group">
                     <label for="kd_mk">Kode Mata Kuliah</label>
                     <select
