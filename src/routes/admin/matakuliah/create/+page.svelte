@@ -54,6 +54,8 @@
                 kd_prodi: '',
                 semester_id: '',
             };
+            
+            window.location = '/admin/matakuliah';
         } catch (error) {
             console.error('Error:', error);
             alert('Failed to submit data');

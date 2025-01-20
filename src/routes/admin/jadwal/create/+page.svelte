@@ -46,6 +46,8 @@
                 kd_mk: '',
                 waktu: '',
             };
+            
+            window.location = '/admin/jadwal'
         } catch (error) {
             console.error('Error:', error);
             alert('Failed to submit data');
