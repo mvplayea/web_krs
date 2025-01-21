@@ -84,6 +84,7 @@
                             type="text"
                             id="nama_mahasiswa"
                             bind:value={formData.nama_mahasiswa}
+                            required
                     />
                 </div>
 
@@ -93,6 +94,7 @@
                             type="textarea"
                             id="alamat"
                             bind:value={formData.alamat}
+                            required
                     />
                 </div>
 
@@ -101,6 +103,7 @@
                     <select
                             id="jenis_kelamin"
                             bind:value={formData.jenis_kelamin}
+                            required
                     >
                         <option value="">Select Gender</option>
                         <option value="L">Laki-laki</option>
@@ -114,6 +117,7 @@
                             type="text"
                             id="semester_id"
                             bind:value={formData.semester_id}
+                            required
                     />
                 </div>
 
@@ -126,7 +130,7 @@
                     </select>
                 </div>
 
-                <button type="submit" class="submit-button">Edit Fakultas</button>
+                <button type="submit" class="submit-button">Edit Mahasiswa</button>
             </form>
         </div>
     </div>
