@@ -9,7 +9,7 @@
   
   const handleLogin = async () => {
     try {
-      if (username.toLowerCase() && password.toLowerCase() === 'admin') {
+      if (username.toLowerCase() && password.toLowerCase() === 'admin1' || username.toLowerCase() && password.toLowerCase() === 'admin2'){
         window.location = '/admin';
         return
       }

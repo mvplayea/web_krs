@@ -360,24 +360,28 @@ BEGIN
 
     -- Query with filtering and pagination
     IF p_semester IS NOT NULL AND p_prodi IS NOT NULL THEN
-        SELECT * FROM mata_kuliah
-                          JOIN prodi ON mata_kuliah.kd_prodi = prodi.kd_prodi
+        SELECT *
+        FROM mata_kuliah
+                 JOIN prodi ON mata_kuliah.kd_prodi = prodi.kd_prodi
         WHERE semester_id = p_semester
           AND mata_kuliah.kd_prodi = p_prodi
         LIMIT 10 OFFSET v_offset;
     ELSEIF p_semester IS NOT NULL THEN
-        SELECT * FROM mata_kuliah
-                          JOIN prodi ON mata_kuliah.kd_prodi = prodi.kd_prodi
+        SELECT *
+        FROM mata_kuliah
+                 JOIN prodi ON mata_kuliah.kd_prodi = prodi.kd_prodi
         WHERE semester_id = p_semester
         LIMIT 10 OFFSET v_offset;
     ELSEIF p_prodi IS NOT NULL THEN
-        SELECT * FROM mata_kuliah
-                          JOIN prodi ON mata_kuliah.kd_prodi = prodi.kd_prodi
+        SELECT *
+        FROM mata_kuliah
+                 JOIN prodi ON mata_kuliah.kd_prodi = prodi.kd_prodi
         WHERE mata_kuliah.kd_prodi = p_prodi
         LIMIT 10 OFFSET v_offset;
     ELSE
-        SELECT * FROM mata_kuliah
-                          JOIN prodi ON mata_kuliah.kd_prodi = prodi.kd_prodi
+        SELECT *
+        FROM mata_kuliah
+                 JOIN prodi ON mata_kuliah.kd_prodi = prodi.kd_prodi
         LIMIT 10 OFFSET v_offset;
     END IF;
 END //
@@ -397,7 +401,13 @@ BEGIN
 
     -- Query with filtering and pagination for the jadwal table
     IF p_semester IS NOT NULL AND p_prodi IS NOT NULL THEN
-        SELECT jadwal.jadwal_id, jadwal.kd_mk, jadwal.waktu, mata_kuliah.matakuliah, mata_kuliah.sks, mata_kuliah.semester_id, mata_kuliah.kd_prodi
+        SELECT jadwal.jadwal_id,
+               jadwal.kd_mk,
+               jadwal.waktu,
+               mata_kuliah.matakuliah,
+               mata_kuliah.sks,
+               mata_kuliah.semester_id,
+               mata_kuliah.kd_prodi
         FROM jadwal
                  JOIN mata_kuliah ON jadwal.kd_mk = mata_kuliah.kd_mk
                  JOIN prodi ON mata_kuliah.kd_prodi = prodi.kd_prodi
@@ -405,20 +415,38 @@ BEGIN
           AND mata_kuliah.kd_prodi = p_prodi
         LIMIT 10 OFFSET v_offset;
     ELSEIF p_semester IS NOT NULL THEN
-        SELECT jadwal.jadwal_id, jadwal.kd_mk, jadwal.waktu, mata_kuliah.matakuliah, mata_kuliah.sks, mata_kuliah.semester_id, mata_kuliah.kd_prodi
+        SELECT jadwal.jadwal_id,
+               jadwal.kd_mk,
+               jadwal.waktu,
+               mata_kuliah.matakuliah,
+               mata_kuliah.sks,
+               mata_kuliah.semester_id,
+               mata_kuliah.kd_prodi
         FROM jadwal
                  JOIN mata_kuliah ON jadwal.kd_mk = mata_kuliah.kd_mk
         WHERE mata_kuliah.semester_id = p_semester
         LIMIT 10 OFFSET v_offset;
     ELSEIF p_prodi IS NOT NULL THEN
-        SELECT jadwal.jadwal_id, jadwal.kd_mk, jadwal.waktu, mata_kuliah.matakuliah, mata_kuliah.sks, mata_kuliah.semester_id, mata_kuliah.kd_prodi
+        SELECT jadwal.jadwal_id,
+               jadwal.kd_mk,
+               jadwal.waktu,
+               mata_kuliah.matakuliah,
+               mata_kuliah.sks,
+               mata_kuliah.semester_id,
+               mata_kuliah.kd_prodi
         FROM jadwal
                  JOIN mata_kuliah ON jadwal.kd_mk = mata_kuliah.kd_mk
                  JOIN prodi ON mata_kuliah.kd_prodi = prodi.kd_prodi
         WHERE mata_kuliah.kd_prodi = p_prodi
         LIMIT 10 OFFSET v_offset;
     ELSE
-        SELECT jadwal.jadwal_id, jadwal.kd_mk, jadwal.waktu, mata_kuliah.matakuliah, mata_kuliah.sks, mata_kuliah.semester_id, mata_kuliah.kd_prodi
+        SELECT jadwal.jadwal_id,
+               jadwal.kd_mk,
+               jadwal.waktu,
+               mata_kuliah.matakuliah,
+               mata_kuliah.sks,
+               mata_kuliah.semester_id,
+               mata_kuliah.kd_prodi
         FROM jadwal
                  JOIN mata_kuliah ON jadwal.kd_mk = mata_kuliah.kd_mk
         LIMIT 10 OFFSET v_offset;
@@ -434,7 +462,8 @@ BEGIN
     DECLARE mata_kuliah_name VARCHAR(255);
 
     -- Get the last jadwal_id (without the 'JD' prefix)
-    SELECT MAX(CAST(SUBSTRING(jadwal_id, 3) AS UNSIGNED)) INTO new_id
+    SELECT MAX(CAST(SUBSTRING(jadwal_id, 3) AS UNSIGNED))
+    INTO new_id
     FROM jadwal;
 
     -- If no data exists, start from 1
@@ -448,7 +477,8 @@ BEGIN
     SET last_id = CONCAT('JD', LPAD(new_id, 3, '0'));
 
     -- Fetch mata_kuliah based on kd_mk
-    SELECT matakuliah INTO mata_kuliah_name
+    SELECT matakuliah
+    INTO mata_kuliah_name
     FROM mata_kuliah
     WHERE kd_mk = p_kd_mk;
 
@@ -485,7 +515,6 @@ BEGIN
 
     -- Insert the course (kd_mk) into krs_mk
     INSERT INTO krs_mk (kd_krs, kd_mk) VALUES (v_kd_krs, p_kd_mk);
-
     COMMIT;
 END //
 DELIMITER ;
@@ -493,14 +522,28 @@ DELIMITER ;
 # TRIGGER
 DELIMITER //
 CREATE TRIGGER BeforeDeleteMataKuliah
-    BEFORE DELETE ON mata_kuliah
+    BEFORE DELETE
+    ON mata_kuliah
     FOR EACH ROW
 BEGIN
-    DELETE FROM krs_mk
+    DELETE
+    FROM krs_mk
     WHERE kd_mk = OLD.kd_mk;
 
-    DELETE FROM jadwal
+    DELETE
+    FROM jadwal
     WHERE kd_mk = OLD.kd_mk;
 
 END //
 DELIMITER ;
+
+CREATE TABLE admin_user
+(
+    username VARCHAR(50) PRIMARY KEY,
+    password VARCHAR(255) NOT NULL
+);
+
+INSERT INTO admin_user (username, password)
+VALUES ('admin', 'admin'),
+       ('admin2', 'admin2');
+
